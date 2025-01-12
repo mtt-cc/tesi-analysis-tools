@@ -87,6 +87,15 @@ def delete_all_events():
     
     print(f"All events in namespace '{namespace}' have been deleted.")
 
+# TODO: try this alternative implementation
+# def delete_all_events():
+#     """Delete all event objects in the specified namespace using deleteCollection."""
+#     try:
+#         v1_event.delete_collection_namespaced_event(namespace=namespace)
+#         print(f"All events in namespace '{namespace}' have been deleted.")
+#     except client.exceptions.ApiException as e:
+#         print(f"Failed to delete events: {e.reason}")
+
 # ! the time definition of cr is only seconds, while local is micro, so sometimes if
 # checking via timestamp the event is not considered
 def is_first_timestamp_after(first_time: datetime, second_time: datetime) -> bool:

@@ -17,7 +17,7 @@ cr_kind_plural = "knownclusters"
 cr_kind = "KnownCluster"
 
 # Clients
-v1_daemonset = client.AppsV1Api()
+v1_daemonset = v1_deployment = client.AppsV1Api()
 v1_custom = client.CustomObjectsApi()
 v1_event = client.CoreV1Api()
 
@@ -36,6 +36,36 @@ def disable_daemonset():
     # so the system has to wait more time from the moment i reschedule it to the moment it is actually started
     # use value > 1
     sleep(2)
+
+# scales down the neuropil deployment and checks if the pods are actually deleted
+# before returning
+def disable_neuropil():
+    """Scale down the Neuropil deployment to 0 replicas."""
+    # Scale down the Neuropil deployment to 0 replicas
+    neuropil_deployment_name = "neuropil"
+    patch = [
+        {
+            "op": "replace",
+            "path": "/spec/replicas",
+            "value": 0
+        }
+    ]
+    v1_deployment.patch_namespaced_deployment(neuropil_deployment_name, namespace, patch)
+    print("Neuropil deployment scaled down to 0 replicas.")
+    
+    # Wait for the Neuropil pods to be deleted
+
+    w = watch.Watch()
+    for event in w.stream(v1_event.list_namespaced_pod, namespace=namespace, label_selector="app.kubernetes.io/name=np-discovery"):
+        if event['type'] == 'DELETED':
+            pods = v1_event.list_namespaced_pod(namespace, label_selector="app.kubernetes.io/name=np-discovery")
+            if not pods.items:
+                w.stop()
+                break
+    if VERBOSE:
+       print("Neuropil pods have been deleted.") 
+    return 
+
 
 def enable_daemonset():
     """Patch the DaemonSet to restore the original nodeSelector (enable it)."""
@@ -70,6 +100,19 @@ def delete_all_knownclusters_cr():
             print(f"Deleted KnownClusters CR: {cr_name}")
     print("All KnownClusters CRs have been deleted.")
 
+def enable_neuropil():
+    patch = [
+        {
+            "op": "replace",
+            "path": "/spec/replicas",
+            "value": 1
+        }
+    ]
+
+    v1_deployment.patch_namespaced_deployment("neuropil", namespace, patch)
+    print("Neuropil deployment scaled up to 1 replica.")
+    return
+
 def delete_all_events():
     """Delete all event objects in the specified namespace."""
     # List all events in the namespace
@@ -94,11 +137,14 @@ def is_first_timestamp_after(first_time: datetime, second_time: datetime) -> boo
     print(f"{first_time} - {second_time} - {first_time>second_time}")
     return first_time > second_time
 
-def watch_for_first_cr_creation():
+def watch_for_first_cr_creation(mode):
     """Watch for the creation of the first KnownClusters CR and measure the time it takes."""
     
     start_time = datetime.now()
-    enable_daemonset()
+    if mode == "netman":
+        enable_daemonset()
+    else: # mode == "neuropil"
+        enable_neuropil()
     w = watch.Watch()
     print("Watching for the creation of the first KnownClusters CR...")
 
@@ -138,7 +184,7 @@ def benchmark_startup_time():
 
     return started_time - begin
 
-def run_benchmark(n, output_file):
+def run_benchmark(mode, n, output_file):
     """Run the benchmark n times and save results to a file."""
     print("Overall time benchmark")
     times = []
@@ -147,13 +193,17 @@ def run_benchmark(n, output_file):
         print(f"\n--- Run {i + 1} ---")
         
         # Step 1: Disable the DaemonSet
-        disable_daemonset()
+        if mode == "netman":
+            disable_daemonset()
+        else: # mode == "neuropil"
+            # scales down the neuropil deployment and checks if the pods are actually deleted
+            disable_neuropil()
         # reset the history of cr and events
         delete_all_knownclusters_cr()
         delete_all_events()
 
         # Step 2: Measure the startup time
-        elapsed_time = watch_for_first_cr_creation()
+        elapsed_time = watch_for_first_cr_creation(mode)
         times.append(elapsed_time)
         print(f"Run {i + 1} startup time: {elapsed_time.total_seconds():.2f} seconds")
 
@@ -162,15 +212,6 @@ def run_benchmark(n, output_file):
     average_time = total_seconds / len(times) if times else 0
     print(f"\nAverage time for CR to reappear over {n} runs: {average_time:.2f} seconds")
 
-    # Prepare results for JSON serialization
-    # results = {
-    #     "runs": [t.total_seconds() for t in times],  # Convert timedelta to seconds
-    #     "average_time": average_time
-    # }
-
-    # # Save results to the output file
-    # with open(output_file, "w") as f:
-    #     json.dump(results, f, indent=4)
     f = open(output_file, 'w')
     f.write("multicast_benchmark_time_samples\n")
     f.writelines([f"{t.total_seconds()}\n" for t in times])
@@ -182,12 +223,14 @@ def run_benchmark(n, output_file):
 # Run the benchmark with the specified number of iterations and save results to a file
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("mode", choices=["netman", "neuropil"], help="Select mode: netman or neuropil")
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true", default=False)
     parser.add_argument("-r","--runs", help="number of runs of measure to perform", type=int, default=10)
+    parser.add_argument("-o","--output", help="output file for the results", type=str, default="netmanager_benchmark_results_overall.txt")
     args = parser.parse_args()
     if args.verbose:
         VERBOSE = True
     N_RUNS = args.runs
+    output_file = args.output
 
-    output_file = "netmanager_benchmark_results_overall.txt"
-    run_benchmark(N_RUNS, output_file)
+    run_benchmark(args.mode, N_RUNS, output_file)
