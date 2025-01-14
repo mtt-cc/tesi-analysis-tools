@@ -11,6 +11,7 @@ config.load_kube_config()
 VERBOSE = False
 namespace = "fluidos"
 daemonset_name = "node-network-manager"
+neuropil_deployment = "np-fluidos-discovery"
 cr_api_group = "network.fluidos.eu"
 cr_api_version = "v1alpha1"
 cr_kind_plural = "knownclusters"
@@ -42,7 +43,7 @@ def disable_daemonset():
 def disable_neuropil():
     """Scale down the Neuropil deployment to 0 replicas."""
     # Scale down the Neuropil deployment to 0 replicas
-    neuropil_deployment_name = "neuropil"
+    
     patch = [
         {
             "op": "replace",
@@ -50,7 +51,7 @@ def disable_neuropil():
             "value": 0
         }
     ]
-    v1_deployment.patch_namespaced_deployment(neuropil_deployment_name, namespace, patch)
+    v1_deployment.patch_namespaced_deployment(neuropil_deployment, namespace, patch)
     print("Neuropil deployment scaled down to 0 replicas.")
     
     # Wait for the Neuropil pods to be deleted
@@ -109,7 +110,7 @@ def enable_neuropil():
         }
     ]
 
-    v1_deployment.patch_namespaced_deployment("neuropil", namespace, patch)
+    v1_deployment.patch_namespaced_deployment(neuropil_deployment, namespace, patch)
     print("Neuropil deployment scaled up to 1 replica.")
     return
 
@@ -139,7 +140,7 @@ def is_first_timestamp_after(first_time: datetime, second_time: datetime) -> boo
 
 def watch_for_first_cr_creation(mode):
     """Watch for the creation of the first KnownClusters CR and measure the time it takes."""
-    
+    creation_time = None
     start_time = datetime.now()
     if mode == "netman":
         enable_daemonset()
