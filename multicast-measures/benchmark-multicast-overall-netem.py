@@ -1,7 +1,7 @@
 from time import sleep
 from datetime import datetime, timezone, timedelta
 from kubernetes import client, config, watch
-import json
+import numpy as np
 import argparse
 
 # Load the kubeconfig
@@ -21,7 +21,7 @@ v1_daemonset = client.AppsV1Api()
 v1_custom = client.CustomObjectsApi()
 v1_event = client.CoreV1Api()
 
-def disable_daemonset():
+def disable_daemonset(sleep_time):
     """Patch the DaemonSet to add a non-existent node label (disable it)."""
     patch = [
         {
@@ -35,7 +35,7 @@ def disable_daemonset():
     # for sleep times too small, i suppose the pod does not have enough time to be destroyed
     # so the system has to wait more time from the moment i reschedule it to the moment it is actually started
     # use value > 1
-    sleep(2)
+    sleep(int(sleep_time))
 
 def enable_daemonset():
     """Patch the DaemonSet to restore the original nodeSelector (enable it)."""
@@ -147,7 +147,7 @@ def benchmark_startup_time():
 
     return started_time - begin
 
-def run_benchmark(n, output_file):
+def run_benchmark(n, output_file,sleeptime):
     """Run the benchmark n times and save results to a file."""
     print("Overall time benchmark")
     times = []
@@ -156,7 +156,7 @@ def run_benchmark(n, output_file):
         print(f"\n--- Run {i + 1} ---")
         
         # Step 1: Disable the DaemonSet
-        disable_daemonset()
+        disable_daemonset(sleeptime)
         # reset the history of cr and events
         delete_all_knownclusters_cr()
         delete_all_events()
@@ -171,17 +171,8 @@ def run_benchmark(n, output_file):
     average_time = total_seconds / len(times) if times else 0
     print(f"\nAverage time for CR to reappear over {n} runs: {average_time:.2f} seconds")
 
-    # Prepare results for JSON serialization
-    # results = {
-    #     "runs": [t.total_seconds() for t in times],  # Convert timedelta to seconds
-    #     "average_time": average_time
-    # }
-
-    # # Save results to the output file
-    # with open(output_file, "w") as f:
-    #     json.dump(results, f, indent=4)
-    f = open(output_file, 'w')
-    f.write("multicast_benchmark_time_samples\n")
+    f = open(output_file, 'a')
+    f.write(f"multicast_benchmark_time_samples {sleeptime}\n")
     f.writelines([f"{t.total_seconds()}\n" for t in times])
     f.close()
     print(f"Results saved to {output_file}")
@@ -197,6 +188,6 @@ if __name__ == "__main__":
     if args.verbose:
         VERBOSE = True
     N_RUNS = args.runs
-
-    output_file = "netmanager_benchmark_results_netem.txt"
-    run_benchmark(N_RUNS, output_file)
+    for sleep_time in np.arange(0,15,0.5):
+        output_file = "netmanager_benchmark_results_netem.txt"
+        run_benchmark(N_RUNS, output_file,sleep_time)
