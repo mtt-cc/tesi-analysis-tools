@@ -3,7 +3,7 @@
 # Environment variables
 
 # Global
-CLUSTER_NAME=tesi-ccl
+CLUSTER_NAME=tesi-ccl-1
 LIQOCTL_VERSION="v0.10.0"
 
 check_dependencies() {

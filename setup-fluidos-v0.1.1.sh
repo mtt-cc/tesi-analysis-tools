@@ -3,17 +3,18 @@
 # Environment variables
 
 # FLUIDOS
-FLUIDOS_VERSION="0.1.0"
+FLUIDOS_VERSION="v0.1.1" # in this script the version does not affect the actual images version
 NODE_NAME=vm1
-HOST_INTERFACE=ens18
+NET_INTERFACE=ens18
 NODE_IP=$(ip a | grep $HOST_INTERFACE | grep inet | awk '{print $2}' | cut -d '/' -f 1)
 REAR_PORT=30000
 # Network Manager
 ENABLE_LOCAL_DISCOVERY=true
 DISABLE_LOCAL_DISCOVERY=false
 FIRST_OCTET=10
-SECOND_OCTET=201
+SECOND_OCTET=200
 THIRD_OCTET=0
+
 # Labels to add to the nodes
 declare -A LABELS
 LABELS["node-role.fluidos.eu/worker"]="true"
@@ -68,16 +69,15 @@ install_fluidos() {
         echo "  - Installing FLUIDOS (network-manager)"
         helm upgrade --install node ./node-tesi/deployments/node \
             -n fluidos --version "$FLUIDOS_VERSION" \
-            --create-namespace -f consumer-values.yaml \
+            --create-namespace -f consumer-values-v0.1.1.yaml \
             --set networkManager.configMaps.nodeIdentity.ip="$NODE_IP" \
             --set rearController.service.gateway.nodePort.port="$REAR_PORT" \
             --set networkManager.config.enableLocalDiscovery="$ENABLE_LOCAL_DISCOVERY" \
-            --set networkManager.config.address.firstOctet="$FIRST_OCTET" \
-            --set networkManager.config.address.secondOctet="$SECOND_OCTET" \
             --set networkManager.config.address.thirdOctet="$THIRD_OCTET" \
+            --set networkManager.config.netInterface="$NET_INTERFACE" \
             --wait \
             --debug \
-            --v=2 \
+            --v=2
             1>/dev/null
 
         if [ $? -ne 0 ]; then
@@ -85,14 +85,14 @@ install_fluidos() {
             exit 1
         fi
         
-     # Export the YAML to a file
-        kubectl get network-attachment-definitions.k8s.cni.cncf.io macvlan-conf -n fluidos -o yaml > macvlan-conf.yaml
+    #  # Export the YAML to a file
+    #     kubectl get network-attachment-definitions.k8s.cni.cncf.io macvlan-conf -n fluidos -o yaml > macvlan-conf.yaml
 
-        # Modify eth0 to ens18 in the file
-        sed -i 's/"master": "eth0"/"master": "ens18"/' macvlan-conf.yaml
+    #     # Modify eth0 to ens18 in the file
+    #     sed -i 's/"master": "eth0"/"master": "ens18"/' macvlan-conf.yaml
 
-        # Apply the modified YAML back to the cluster
-        kubectl apply -f macvlan-conf.yaml
+    #     # Apply the modified YAML back to the cluster
+    #     kubectl apply -f macvlan-conf.yaml
 
     elif [ "$COMPONENT" == "neuropil" ]; then
         # Install FLUIDOS with the neuropil component

@@ -4,13 +4,13 @@ metadata:
   annotations:
     helm.sh/hook: pre-install
     helm.sh/hook-weight: "-6"
-  creationTimestamp: "2024-12-04T11:17:46Z"
+  creationTimestamp: "2025-01-11T11:05:46Z"
   generation: 1
   name: macvlan-conf
   namespace: fluidos
-  resourceVersion: "1353741"
-  uid: a8427100-0f24-4dc9-a04f-70ff72e3aa9b
+  resourceVersion: "120228"
+  uid: 53556006-9263-4ea4-8de8-647090815a3f
 spec:
   config: '{ "cniVersion": "0.3.0", "type": "macvlan", "master": "ens18", "mode": "bridge",
-    "ipam": { "type": "host-local", "subnet": "10.200.0.0/24", "rangeStart": "10.200.0.101",
-    "rangeEnd": "10.200.0.101" } }'
+    "ipam": { "type": "host-local", "subnet": "10.201.0.0/24", "rangeStart": "10.201.0.101",
+    "rangeEnd": "10.201.0.101" } }'
