@@ -8,7 +8,7 @@ import argparse
 config.load_kube_config()
 
 # Constants
-f = None # used to write the results
+F = None # used to write the results
 VERBOSE = False
 namespace = "fluidos"
 daemonset_name = "node-network-manager"
@@ -164,7 +164,8 @@ def watch_for_first_cr_creation(mode):
                 print(f"Time taken for first KnownClusters CR to appear: {creation_time:.2f} seconds")
             w.stop()  # Stop the watch as we only need the first CR creation
             break
-    f.write(f"{creation_time.total_seconds()}\n")
+    F.write(f"{creation_time.total_seconds()}\n")
+    F.flush()
     return creation_time
 
 # measures pod startup time only
@@ -192,8 +193,9 @@ def benchmark_startup_time():
 def run_benchmark(mode, n, output_file):
     """Run the benchmark n times and save results to a file."""
     print("Overall time benchmark")
-    f = open(output_file, 'w')
-    f.write("multicast_benchmark_time_samples\n")
+    global F
+    F = open(output_file, 'w')
+    F.write("multicast_benchmark_time_samples\n")
 
     # list to store each iteration result
     times = []
@@ -223,7 +225,7 @@ def run_benchmark(mode, n, output_file):
     
     # old implementation, wrote the times in the file all at once at the end, not suitable in case of crashes
     # f.writelines([f"{t.total_seconds()}\n" for t in times])
-    f.close()
+    F.close()
     print(f"Results saved to {output_file}")
 
 
