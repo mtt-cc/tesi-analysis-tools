@@ -8,6 +8,7 @@ import argparse
 config.load_kube_config()
 
 # Constants
+f = None # used to write the results
 VERBOSE = False
 namespace = "fluidos"
 daemonset_name = "node-network-manager"
@@ -138,6 +139,7 @@ def is_first_timestamp_after(first_time: datetime, second_time: datetime) -> boo
     print(f"{first_time} - {second_time} - {first_time>second_time}")
     return first_time > second_time
 
+# measures from giving the start pod command to the creation of the first KnownCluster CR
 def watch_for_first_cr_creation(mode):
     """Watch for the creation of the first KnownClusters CR and measure the time it takes."""
     creation_time = None
@@ -162,8 +164,10 @@ def watch_for_first_cr_creation(mode):
                 print(f"Time taken for first KnownClusters CR to appear: {creation_time:.2f} seconds")
             w.stop()  # Stop the watch as we only need the first CR creation
             break
+    f.write(f"{creation_time.total_seconds()}\n")
     return creation_time
 
+# measures pod startup time only
 def benchmark_startup_time():
     tzinfo = timezone(timedelta(hours=0))
     begin = datetime.now(tzinfo)
@@ -188,6 +192,10 @@ def benchmark_startup_time():
 def run_benchmark(mode, n, output_file):
     """Run the benchmark n times and save results to a file."""
     print("Overall time benchmark")
+    f = open(output_file, 'w')
+    f.write("multicast_benchmark_time_samples\n")
+
+    # list to store each iteration result
     times = []
 
     for i in range(n):
@@ -197,8 +205,7 @@ def run_benchmark(mode, n, output_file):
         if mode == "netman":
             disable_daemonset()
         else: # mode == "neuropil"
-            # scales down the neuropil deployment and checks if the pods are actually deleted
-            disable_neuropil()
+            disable_neuropil() # scales down the neuropil deployment and checks if the pods are actually deleted
         # reset the history of cr and events
         delete_all_knownclusters_cr()
         delete_all_events()
@@ -213,9 +220,9 @@ def run_benchmark(mode, n, output_file):
     average_time = total_seconds / len(times) if times else 0
     print(f"\nAverage time for CR to reappear over {n} runs: {average_time:.2f} seconds")
 
-    f = open(output_file, 'w')
-    f.write("multicast_benchmark_time_samples\n")
-    f.writelines([f"{t.total_seconds()}\n" for t in times])
+    
+    # old implementation, wrote the times in the file all at once at the end, not suitable in case of crashes
+    # f.writelines([f"{t.total_seconds()}\n" for t in times])
     f.close()
     print(f"Results saved to {output_file}")
 
