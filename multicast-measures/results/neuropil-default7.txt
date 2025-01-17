@@ -1,0 +1,4 @@
+multicast_benchmark_time_samples
+43.29912
+39.736044
+42.177851
