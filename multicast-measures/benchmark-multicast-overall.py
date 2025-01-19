@@ -3,6 +3,7 @@ from datetime import datetime, timezone, timedelta
 from kubernetes import client, config, watch
 import json
 import argparse
+import os
 
 # Load the kubeconfig
 config.load_kube_config()
@@ -194,8 +195,11 @@ def run_benchmark(mode, n, output_file):
     """Run the benchmark n times and save results to a file."""
     print("Overall time benchmark")
     global F
-    F = open(output_file, 'w')
-    F.write("multicast_benchmark_time_samples\n")
+    if os.path.exists(output_file):
+        F = open(output_file, 'a')
+    else:
+        F = open(output_file, 'w')
+        F.write("multicast_benchmark_time_samples\n")
 
     # list to store each iteration result
     times = []
