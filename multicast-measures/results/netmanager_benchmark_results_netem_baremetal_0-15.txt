@@ -1,0 +1,149 @@
+multicast_benchmark_time_samples 0.0
+4.849851
+4.877385
+4.885296
+multicast_benchmark_time_samples 0.5
+4.865689
+4.865297
+4.87929
+4.717712
+multicast_benchmark_time_samples 1.0
+3.861634
+3.691511
+3.848962
+3.727116
+multicast_benchmark_time_samples 1.5
+3.855954
+3.862785
+3.859553
+3.867451
+multicast_benchmark_time_samples 2.0
+2.880135
+2.886678
+2.85269
+2.866113
+multicast_benchmark_time_samples 2.5
+2.879567
+2.90836
+2.932108
+2.923498
+multicast_benchmark_time_samples 3.0
+1.87237
+1.84207
+1.90081
+1.865234
+multicast_benchmark_time_samples 3.5
+1.885396
+1.849192
+1.844267
+1.882035
+multicast_benchmark_time_samples 4.0
+5.875872
+5.84873
+5.859413
+5.877901
+multicast_benchmark_time_samples 4.5
+5.864342
+5.860996
+5.854376
+5.840108
+multicast_benchmark_time_samples 5.0
+4.858071
+4.858367
+4.834743
+4.72948
+multicast_benchmark_time_samples 5.5
+4.849735
+4.844511
+4.833896
+4.871855
+multicast_benchmark_time_samples 6.0
+3.84948
+3.823147
+3.833293
+3.81367
+multicast_benchmark_time_samples 6.5
+3.834087
+3.843083
+3.8444
+3.840896
+multicast_benchmark_time_samples 7.0
+2.9246
+2.909889
+2.921053
+2.917822
+multicast_benchmark_time_samples 7.5
+2.916888
+2.873131
+2.925135
+2.916299
+multicast_benchmark_time_samples 8.0
+6.835717
+6.846682
+6.725087
+6.859119
+multicast_benchmark_time_samples 8.5
+6.836098
+1.841371
+1.870861
+1.840178
+multicast_benchmark_time_samples 9.0
+5.84306
+5.703914
+5.876732
+5.843134
+multicast_benchmark_time_samples 9.5
+5.852466
+5.861566
+5.859319
+5.862533
+multicast_benchmark_time_samples 10.0
+4.855658
+4.842689
+4.850347
+4.761968
+multicast_benchmark_time_samples 10.5
+4.848201
+4.856698
+4.85487
+4.838089
+multicast_benchmark_time_samples 11.0
+3.84778
+3.86965
+3.841035
+3.854423
+multicast_benchmark_time_samples 11.5
+3.83423
+3.85292
+3.853311
+3.870733
+multicast_benchmark_time_samples 12.0
+2.923944
+2.8591
+2.940506
+2.841999
+multicast_benchmark_time_samples 12.5
+2.91896
+2.844019
+2.920754
+2.837857
+multicast_benchmark_time_samples 13.0
+1.852347
+1.845414
+1.853213
+6.854577
+multicast_benchmark_time_samples 13.5
+6.847978
+1.848837
+1.860046
+1.82933
+multicast_benchmark_time_samples 14.0
+5.856363
+5.862119
+5.858281
+5.746377
+multicast_benchmark_time_samples 14.5
+5.837633
+5.732138
+5.859778
+5.847981
