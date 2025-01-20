@@ -99,7 +99,7 @@ install_fluidos() {
         echo "  - Installing FLUIDOS (neuropil)"
         helm upgrade --install node ./node-tesi/deployments/node \
             -n fluidos --version "$FLUIDOS_VERSION" \
-            --create-namespace \
+            --create-namespace -f values-neuropil-v0.1.1.yaml\
             --set rearController.service.gateway.nodePort.port="$REAR_PORT" \
             --set networkManager.config.enableLocalDiscovery="$DISABLE_LOCAL_DISCOVERY" \
             --set npDiscovery.enabled="true" \
