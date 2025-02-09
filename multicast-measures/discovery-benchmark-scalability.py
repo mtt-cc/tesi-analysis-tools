@@ -8,10 +8,14 @@ import json
 import argparse
 import os
 
-# Load the kubeconfig
-config.load_kube_config()
-    
-contexts, active_context = config.list_kube_config_contexts()
+# Expand home directory path
+kube_config_path = os.path.expanduser("/home/netgroup/.kube/config")
+
+# Load the default kubeconfig
+config.load_kube_config(kube_config_path)
+
+# Get available contexts
+contexts, active_context = config.list_kube_config_contexts(kube_config_path)
 # if not contexts:
 #     print("Cannot find any context in kube-config file.")
 #     return 0
@@ -19,7 +23,7 @@ contexts, active_context = config.list_kube_config_contexts()
 if not contexts:
     print("Cannot find any context in kube-config file.")
     exit(1)
-config.load_kube_config(context="kind-fluidos-1")
+config.load_kube_config(config_file=kube_config_path,context="kind-fluidos-1")
 
 # Constants
 F = None # used to write the results
@@ -224,16 +228,27 @@ def scalability_test(mode):
                           plural=cr_kind_plural):
         if event['type'] == 'ADDED':
             cr_name = event['object']['metadata']['name']
-            print(f"Detected creation of KnownClusters CR: {cr_name}")
+            print(f"Detected creation of KnownClusters CR: {cr_name} with addr: {event['object']['spec']['address']}")
+            # print(event['object'])
             creation_time = datetime.now() - start_time
-            nodes_found += 1
-            F.write(f"{creation_time.total_seconds()} {cr_name}\n")
+            F.write(f"{creation_time.total_seconds()} {cr_name} {event['object']['spec']['address']}\n")
             F.flush()
             if VERBOSE:
                 print(f"Time taken for first KnownClusters CR to appear: {creation_time:.2f} seconds")
-            # go to next iteration if all other nodes are found
-            if nodes_found == N_NODES-1 or datetime.now() - start_time > timedelta(minutes=2):
+            # go to next iteration if all other nodes are found or timeout is reached
+            # all_crs = v1_custom.list_namespaced_custom_object(
+            #     group=cr_api_group,
+            #     version=cr_api_version,
+            #     namespace=namespace,
+            #     plural=cr_kind_plural
+            # )
+            # nodes_found = len(all_crs.get("items", []))
+            nodes_found += 1
+            if nodes_found == N_NODES-1 or datetime.now() - start_time > timedelta(minutes=5):
                 w.stop()
+    
+    F.write(f"----------------\n")
+    F.flush()
 
     return creation_time
 
