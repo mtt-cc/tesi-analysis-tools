@@ -23,12 +23,12 @@ contexts, active_context = config.list_kube_config_contexts(kube_config_path)
 if not contexts:
     print("Cannot find any context in kube-config file.")
     exit(1)
-config.load_kube_config(config_file=kube_config_path,context="kind-fluidos-1")
+config.load_kube_config(config_file=kube_config_path,context="k3d-fluidos-1")
 
 # Constants
 F = None # used to write the results
 VERBOSE = False
-N_NODES = 8
+N_NODES = 14
 namespace = "fluidos"
 daemonset_name = "node-network-manager"
 neuropil_deployment = "np-fluidos-discovery"
@@ -210,7 +210,7 @@ def benchmark_startup_time():
     return started_time - begin
 
 def scalability_test(mode):
-    """Watch for the creation of the first KnownClusters CR and measure the time it takes."""
+    """Watch for the creation of KnownClusters CRs with inactivity timeout."""
     nodes_found = 0
     creation_time = None
     start_time = datetime.now()
@@ -221,36 +221,36 @@ def scalability_test(mode):
     w = watch.Watch()
     print("Watching for the creation of KnownClusters CRs...")
 
-    for event in w.stream(v1_custom.list_namespaced_custom_object, 
-                          group=cr_api_group, 
-                          version=cr_api_version, 
-                          namespace=namespace, 
-                          plural=cr_kind_plural):
-        if event['type'] == 'ADDED':
-            cr_name = event['object']['metadata']['name']
-            print(f"Detected creation of KnownClusters CR: {cr_name} with addr: {event['object']['spec']['address']}")
-            # print(event['object'])
-            creation_time = datetime.now() - start_time
-            F.write(f"{creation_time.total_seconds()} {cr_name} {event['object']['spec']['address']}\n")
-            F.flush()
-            if VERBOSE:
-                print(f"Time taken for first KnownClusters CR to appear: {creation_time:.2f} seconds")
-            # go to next iteration if all other nodes are found or timeout is reached
-            # all_crs = v1_custom.list_namespaced_custom_object(
-            #     group=cr_api_group,
-            #     version=cr_api_version,
-            #     namespace=namespace,
-            #     plural=cr_kind_plural
-            # )
-            # nodes_found = len(all_crs.get("items", []))
-            nodes_found += 1
-            if nodes_found == N_NODES-1 or datetime.now() - start_time > timedelta(minutes=5):
-                w.stop()
-    
-    F.write(f"----------------\n")
-    F.flush()
+    # Set timeout to 1 minute
+    timeout = 120
+    try:
+        for event in w.stream(v1_custom.list_namespaced_custom_object, 
+                            group=cr_api_group, 
+                            version=cr_api_version, 
+                            namespace=namespace, 
+                            plural=cr_kind_plural,
+                            timeout_seconds=timeout):
+            if event['type'] == 'ADDED':
+                cr_name = event['object']['metadata']['name']
+                print(f"Detected creation of KnownClusters CR: {cr_name} with addr: {event['object']['spec']['address']}")
+                creation_time = datetime.now() - start_time
+                F.write(f"{creation_time.total_seconds()} {cr_name} {event['object']['spec']['address']}\n")
+                F.flush()
+                if VERBOSE:
+                    print(f"Time taken for KnownClusters CR to appear: {creation_time:.2f} seconds")
+                nodes_found += 1
+                if nodes_found == N_NODES-1 or datetime.now() - start_time > timedelta(minutes=5):
+                    w.stop()
+                    break
 
-    return creation_time
+    except client.exceptions.ApiException as e:
+        print(f"API Exception: {e}")
+    except Exception as e:
+        print(f"Watch timeout after {timeout} seconds of inactivity")
+    finally:
+        F.write(f"----------------\n")
+        F.flush()
+        w.stop()
 
 def run_benchmark(mode, n, output_file):
     """Run the benchmark n times and save results to a file."""
