@@ -42,6 +42,7 @@ network_manager_netem_10_data = load("../multicast-measures/results/netmanager-s
 network_manager_netem_25_data = load("../multicast-measures/results/netmanager-scalability-netem-25.txt")
 neuropil_default_data = load("../multicast-measures/results/neuropil-scalability.txt")
 neuropil_default_data_2 = load("../multicast-measures/results/neuropil-scalability-2.txt")
+neuropil_netem_10_data = load("../multicast-measures/results/neuropil-scalability-netem-10.txt")
 
 # Generate cumulative discovery time graph
 plt.figure(figsize=(10, 6))
@@ -146,6 +147,21 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+# Generate cumulative discovery time graph
+plt.figure(figsize=(10, 6))
+for i, run in enumerate(neuropil_netem_10_data[:10]):
+    if len(run) > 0:
+        cumulative_times = np.arange(1, len(run) + 1)
+        plt.plot(run, cumulative_times, label=f"Run {i+1}", alpha=0.7)
+
+plt.ylim(bottom=0)
+plt.xlabel("Time (seconds)")
+plt.ylabel("Number of Nodes Discovered")
+plt.title("Neuropil Cumulative Node Discovery Time - 10% packet loss")
+plt.legend()
+plt.grid(True)
+plt.show()
+
 
 
 #------------------ BOX PLOTS ------------------
@@ -239,13 +255,9 @@ plt.xlabel("Discovery Time (seconds)")
 plt.title("NetworkManager - Time Range to Discover Each Number of Nodes - 25% packet loss")
 plt.grid(True)
 plt.xlim(0, 27)
-
-# Improve x-axis readability
-# plt.xticks(sorted_node_counts, rotation=45)
-
 plt.show()
 
-
+#----Neuropil----
 nodes_discovery_time_neuropil = defaultdict(list)
 # Iterate over each run and collect times for each cumulative node count
 for run in neuropil_default_data:
@@ -263,8 +275,24 @@ plt.ylabel("Number of Nodes Discovered")
 plt.xlabel("Discovery Time (seconds)")
 plt.title("Neuropil - Time Range to Discover Each Number of Nodes")
 plt.grid(True)
-# plt.xlim(0, 27)
+plt.show()
 
-# Improve x-axis readability
-# plt.xticks(sorted_node_counts, rotation=45)
+#----Neuropil 10% Packet Loss----
+nodes_discovery_time_neuropil = defaultdict(list)
+# Iterate over each run and collect times for each cumulative node count
+for run in neuropil_netem_10_data:
+    for i, time in enumerate(run):
+        nodes_discovery_time_neuropil[i + 1].append(time)  # Store discovery times for node count i+1
+
+# Sort by node count (keys)
+sorted_node_counts = sorted(nodes_discovery_time_neuropil.keys())
+boxplot_data = [nodes_discovery_time_neuropil[n] for n in sorted_node_counts]
+
+# Generate box plot
+plt.figure(figsize=(12, 6))
+plt.boxplot(boxplot_data, positions=sorted_node_counts,vert=False, showfliers=True, patch_artist=True)
+plt.ylabel("Number of Nodes Discovered")
+plt.xlabel("Discovery Time (seconds)")
+plt.title("Neuropil - Time Range to Discover Each Number of Nodes - 10% packet loss")
+plt.grid(True)
 plt.show()

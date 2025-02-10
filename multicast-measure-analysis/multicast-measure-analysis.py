@@ -185,12 +185,51 @@ def main():
     
     # Plot the distribution (of FILTERED DATA)
     # counts, bins, patches = plt.hist(np_default_filtered, bins=100, color='skyblue', edgecolor='black', rwidth=0.9)
-    sns.histplot(np_default_filtered, kde=False, bins=20)
-    sns.histplot(nm_default_baremetal_filtered, kde=False, bins=20, color='red')
+    sns.histplot(np_default_filtered, kde=False, bins=50)
+    # sns.histplot(nm_default_baremetal_filtered, kde=False, bins=20, color='red')
 
     plt.legend()
     # plt.xticks(ticks=range(3,19,2), minor=True)
     plt.title(f'Distribution of Time Samples in Total time benchmark with 0% packet loss - Neuropil')
+    plt.xlabel('Time(s)')
+    plt.ylabel('Frequency(n of samples)')
+    plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+
+    # Annotate frequencies on the bars
+    # for count, patch in zip(counts, patches):
+    #     if count != 0:
+    #         x = patch.get_x() + patch.get_width() / 2  # Center of the bar
+    #         plt.text(x, count, f"{int(count)}", ha='center', va='bottom')       
+    plt.show()
+
+
+    # NP BOTH 10%
+    np_mean = np.mean(np_netem_10_both)
+    np_std_dev = np.std(np_netem_10_both)
+
+    np_percentile_5, np_percentile_95 = np.percentile(np_netem_10_both, [5, 95])  # Calculate 5th and 95th percentiles
+  
+    # Round values
+    np_netem_10_both = np.round(np_netem_10_both, 3)
+    
+    print(f"Mean: {np_mean}")
+    print(f"Standard Deviation: {np_std_dev}")
+    print(f"5th Percentile: {np_percentile_5}, 95th Percentile: {np_percentile_95}")
+    # Clean data
+    np_netem_10_both_filtered = np_netem_10_both
+    nm_default_baremetal_filtered = nm_deafult_baremetal
+
+    # Filter data within 95th percentile
+    np_netem_10_both_filtered = np_netem_10_both[(np_netem_10_both >= np_percentile_5)]
+    np_netem_10_both_filtered = np_netem_10_both_filtered[(np_netem_10_both <= np_percentile_95)] 
+    print(f"Filtered Data: {len(np_netem_10_both_filtered)} samples within 5th to 95th percentile")
+    # Plot the distribution (of FILTERED DATA)
+    # counts, bins, patches = plt.hist(np_default_filtered, bins=100, color='skyblue', edgecolor='black', rwidth=0.9)
+    sns.histplot(np_netem_10_both_filtered, kde=False, bins=50)
+
+    plt.legend()
+    # plt.xticks(ticks=range(3,19,2), minor=True)
+    plt.title(f'Distribution of Time Samples in Total time benchmark with 10% packet loss - Neuropil')
     plt.xlabel('Time(s)')
     plt.ylabel('Frequency(n of samples)')
     plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
