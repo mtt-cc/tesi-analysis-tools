@@ -186,9 +186,10 @@ def main():
     # Plot the distribution (of FILTERED DATA)
     # counts, bins, patches = plt.hist(np_default_filtered, bins=100, color='skyblue', edgecolor='black', rwidth=0.9)
     sns.histplot(np_default_filtered, kde=False, bins=50)
-    # sns.histplot(nm_default_baremetal_filtered, kde=False, bins=20, color='red')
+    sns.histplot(nm_default_baremetal_filtered, kde=False, bins=1, color='red')
 
     plt.legend()
+    plt.legend(['Neuropil Default', 'NM Baremetal'])
     # plt.xticks(ticks=range(3,19,2), minor=True)
     plt.title(f'Distribution of Time Samples in Total time benchmark with 0% packet loss - Neuropil')
     plt.xlabel('Time(s)')

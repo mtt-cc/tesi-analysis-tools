@@ -23,7 +23,7 @@ contexts, active_context = config.list_kube_config_contexts(kube_config_path)
 if not contexts:
     print("Cannot find any context in kube-config file.")
     exit(1)
-config.load_kube_config(config_file=kube_config_path,context="k3d-fluidos-1")
+config.load_kube_config(config_file=kube_config_path,context="kind-fluidos-1")
 
 # Constants
 F = None # used to write the results
