@@ -477,7 +477,8 @@ multicast_benchmark_time_samples
 12.874851 knowncluster-ymuy6qp8h3 172.18.0.22:30000
 14.883473 knowncluster-xxb5v4l2bu 172.18.0.3:30000
 19.367694 knowncluster-panv7wnt3v 172.18.0.33:30000
-----------------3.190518 knowncluster-egclcyva95 172.18.0.26:30000
+----------------
+3.190518 knowncluster-egclcyva95 172.18.0.26:30000
 3.33839 knowncluster-8trcwgub6u 172.18.0.33:30000
 3.495283 knowncluster-kopwy2xnq9 172.18.0.22:30000
 3.968359 knowncluster-r2lsjrt0vy 172.18.0.13:30000

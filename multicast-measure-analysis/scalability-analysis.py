@@ -47,11 +47,11 @@ neuropil_netem_10_data = load("../multicast-measures/results/neuropil-scalabilit
 # Generate cumulative discovery time graph
 plt.figure(figsize=(10, 6))
 
-for i, run in enumerate(default_data):
+for i, run in enumerate(default_data[:10]):
     if len(run) > 0:
         cumulative_times = np.arange(1, len(run) + 1)
         plt.plot(run, cumulative_times, label=f"Run {i+1}", alpha=0.7)
-# plt.xlim(0, 27)
+# plt.xlim(0, 28)
 # plt.axhline(y=23, color='black', linestyle='--', label='y = 23')
 plt.ylim(bottom=0)
 plt.yticks(np.append(plt.yticks()[0], 23))
@@ -116,7 +116,7 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-# Neuropil
+# NEUROPIL
 # Generate cumulative discovery time graph
 plt.figure(figsize=(10, 6))
 for i, run in enumerate(neuropil_default_data[:10]):
@@ -132,6 +132,7 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
+# NEUROPIL 2
 # Generate cumulative discovery time graph
 plt.figure(figsize=(10, 6))
 for i, run in enumerate(neuropil_default_data_2[:10]):
@@ -184,7 +185,7 @@ plt.ylabel("Number of Nodes Discovered")
 plt.xlabel("Discovery Time (seconds)")
 plt.title("Time Range to Discover Each Number of Nodes")
 plt.grid(True)
-plt.xlim(0, 27)
+plt.xlim(0, 28)
 # Improve x-axis readability
 # plt.xticks(sorted_node_counts, rotation=45)
 plt.show()
@@ -206,7 +207,7 @@ plt.ylabel("Number of Nodes Discovered")
 plt.xlabel("Discovery Time (seconds)")
 plt.title("NetworkManager - Time Range to Discover Each Number of Nodes - 5% packet loss")
 plt.grid(True)
-plt.xlim(0, 27)
+plt.xlim(0, 28)
 # Improve x-axis readability
 # plt.xticks(sorted_node_counts, rotation=45)
 plt.show()
@@ -229,7 +230,7 @@ plt.ylabel("Number of Nodes Discovered")
 plt.xlabel("Discovery Time (seconds)")
 plt.title("NetworkManager - Time Range to Discover Each Number of Nodes - 10% packet loss")
 plt.grid(True)
-plt.xlim(0, 27)
+plt.xlim(0, 28)
 
 # Improve x-axis readability
 # plt.xticks(sorted_node_counts, rotation=45)
@@ -254,7 +255,7 @@ plt.ylabel("Number of Nodes Discovered")
 plt.xlabel("Discovery Time (seconds)")
 plt.title("NetworkManager - Time Range to Discover Each Number of Nodes - 25% packet loss")
 plt.grid(True)
-plt.xlim(0, 27)
+plt.xlim(0, 28)
 plt.show()
 
 #----Neuropil----
