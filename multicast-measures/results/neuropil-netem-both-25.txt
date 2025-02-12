@@ -1,2 +1,4 @@
 multicast_benchmark_time_samples
-540.718985
+54.880252
+82.036694
+51.167154

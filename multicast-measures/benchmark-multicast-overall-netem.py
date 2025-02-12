@@ -1,3 +1,4 @@
+import os
 from time import sleep
 from datetime import datetime, timezone, timedelta
 from kubernetes import client, config, watch
@@ -15,6 +16,8 @@ cr_api_group = "network.fluidos.eu"
 cr_api_version = "v1alpha1"
 cr_kind_plural = "knownclusters"
 cr_kind = "KnownCluster"
+
+vm_addr = "65"
 
 # Clients
 v1_daemonset = client.AppsV1Api()
@@ -116,7 +119,7 @@ def watch_for_first_cr_creation():
                           version=cr_api_version, 
                           namespace=namespace, 
                           plural=cr_kind_plural):
-        if event['type'] == 'ADDED':
+        if event['type'] == 'ADDED' and event['object']['spec']['address']==f"192.168.11.{vm_addr}:30000":
             cr_name = event['object']['metadata']['name']
             print(f"Detected creation of KnownClusters CR: {cr_name}")
             creation_time = datetime.now() - start_time
@@ -151,6 +154,13 @@ def run_benchmark(n, output_file,sleeptime):
     """Run the benchmark n times and save results to a file."""
     print("Overall time benchmark")
     times = []
+    global F
+    if os.path.exists(f"./results/{output_file}"):
+        F = open(f"./results/{output_file}", 'a')
+    else:
+        F = open(f"./results/{output_file}", 'w')
+        F.write("multicast_benchmark_time_samples\n")
+        
 
     for i in range(n):
         print(f"\n--- Run {i + 1} ---")
@@ -171,10 +181,9 @@ def run_benchmark(n, output_file,sleeptime):
     average_time = total_seconds / len(times) if times else 0
     print(f"\nAverage time for CR to reappear over {n} runs: {average_time:.2f} seconds")
 
-    f = open(output_file, 'a')
-    f.write(f"multicast_benchmark_time_samples {sleeptime}\n")
-    f.writelines([f"{t.total_seconds()}\n" for t in times])
-    f.close()
+    F.write(f"multicast_benchmark_time_samples {sleeptime}\n")
+    F.writelines([f"{t.total_seconds()}\n" for t in times])
+    F.close()
     print(f"Results saved to {output_file}")
 
 
@@ -182,12 +191,15 @@ def run_benchmark(n, output_file,sleeptime):
 # Run the benchmark with the specified number of iterations and save results to a file
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("mode", choices=["netman", "neuropil"], help="Select mode: netman or neuropil")
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true", default=False)
     parser.add_argument("-r","--runs", help="number of runs of measure to perform", type=int, default=10)
+    parser.add_argument("-o","--output", help="output file for the results", type=str, default="netmanager_benchmark_results_range.txt")
     args = parser.parse_args()
     if args.verbose:
         VERBOSE = True
     N_RUNS = args.runs
+    output_file = args.output
+    
     for sleep_time in np.arange(0,15,0.5):
-        output_file = "netmanager_benchmark_results_netem.txt"
         run_benchmark(N_RUNS, output_file,sleep_time)
