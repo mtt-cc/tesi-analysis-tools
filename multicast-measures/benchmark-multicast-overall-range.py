@@ -1,9 +1,10 @@
 import os
-from time import sleep
+from time import perf_counter, sleep
 from datetime import datetime, timezone, timedelta
 from kubernetes import client, config, watch
 import numpy as np
 import argparse
+import random
 
 # Load the kubeconfig
 config.load_kube_config()
@@ -34,7 +35,7 @@ def disable_daemonset(sleep_time):
         }
     ]
     v1_daemonset.patch_namespaced_daemon_set(daemonset_name, namespace, patch)
-    print("DaemonSet disabled (non-existent node label applied).")
+    print(f"{datetime.now()} DaemonSet disabled (non-existent node label applied).")
     # for sleep times too small, i suppose the pod does not have enough time to be destroyed
     # so the system has to wait more time from the moment i reschedule it to the moment it is actually started
     # use value > 1
@@ -50,7 +51,7 @@ def enable_daemonset():
         }
     ]
     v1_daemonset.patch_namespaced_daemon_set(daemonset_name, namespace, patch)
-    print("DaemonSet re-enabled (original node label restored).")
+    print(f"{datetime.now()} DaemonSet re-enabled (original node label restored).")
 
 def delete_all_knownclusters_cr():
     """Delete all custom resources of type 'KnownCluster'."""
@@ -88,7 +89,7 @@ def delete_all_events():
         except client.exceptions.ApiException as e:
             print(f"Failed to delete event {event_name}: {e.reason}")
     
-    print(f"All events in namespace '{namespace}' have been deleted.")
+    print(f"{datetime.now()} All events in namespace '{namespace}' have been deleted.")
 
 # TODO: try this alternative implementation
 # def delete_all_events():
@@ -108,11 +109,14 @@ def is_first_timestamp_after(first_time: datetime, second_time: datetime) -> boo
 
 def watch_for_first_cr_creation():
     """Watch for the creation of the first KnownClusters CR and measure the time it takes."""
-    
+    init_start = perf_counter()
     start_time = datetime.now()
     enable_daemonset()
+    init_end = perf_counter()
+
+    print(f"Initialization took: {init_end - init_start:.3f} seconds")
     w = watch.Watch()
-    print("Watching for the creation of the first KnownClusters CR...")
+    print(f"{datetime.now()} Watching for the creation of the first KnownClusters CR...")
 
     for event in w.stream(v1_custom.list_namespaced_custom_object, 
                           group=cr_api_group, 
@@ -121,12 +125,14 @@ def watch_for_first_cr_creation():
                           plural=cr_kind_plural):
         if event['type'] == 'ADDED' and event['object']['spec']['address']==f"192.168.11.{vm_addr}:30000":
             cr_name = event['object']['metadata']['name']
-            print(f"Detected creation of KnownClusters CR: {cr_name}")
+            print(f"{datetime.now()} Detected creation of KnownClusters CR: {cr_name}")
             creation_time = datetime.now() - start_time
             if VERBOSE:
                 print(f"Time taken for first KnownClusters CR to appear: {creation_time:.2f} seconds")
             w.stop()  # Stop the watch as we only need the first CR creation
             break
+    F.write(f"{creation_time.total_seconds()}\n")
+    F.flush()
     return creation_time
 
 def benchmark_startup_time():
@@ -160,11 +166,19 @@ def run_benchmark(n, output_file,sleeptime):
     else:
         F = open(f"./results/{output_file}", 'w')
         F.write("multicast_benchmark_time_samples\n")
-        
+    
+    F.write(f"multicast_benchmark_time_samples {sleeptime}\n")
+    F.flush()
 
     for i in range(n):
         print(f"\n--- Run {i + 1} ---")
         
+        # only for random sleep time testing
+        # sleeptime = random.uniform(20, 25)
+        # print(f"Random sleep time selected: {sleeptime:.2f} seconds")
+
+
+
         # Step 1: Disable the DaemonSet
         disable_daemonset(sleeptime)
         # reset the history of cr and events
@@ -174,15 +188,15 @@ def run_benchmark(n, output_file,sleeptime):
         # Step 2: Measure the startup time
         elapsed_time = watch_for_first_cr_creation()
         times.append(elapsed_time)
-        print(f"Run {i + 1} startup time: {elapsed_time.total_seconds():.2f} seconds")
+        print(f"{datetime.now()} Run {i + 1} startup time: {elapsed_time.total_seconds():.2f} seconds")
 
     # Calculate the average time in seconds
     total_seconds = sum(t.total_seconds() for t in times)
     average_time = total_seconds / len(times) if times else 0
     print(f"\nAverage time for CR to reappear over {n} runs: {average_time:.2f} seconds")
 
-    F.write(f"multicast_benchmark_time_samples {sleeptime}\n")
-    F.writelines([f"{t.total_seconds()}\n" for t in times])
+    
+    # F.writelines([f"{t.total_seconds()}\n" for t in times])
     F.close()
     print(f"Results saved to {output_file}")
 
@@ -201,5 +215,5 @@ if __name__ == "__main__":
     N_RUNS = args.runs
     output_file = args.output
     
-    for sleep_time in np.arange(0,15,0.5):
+    for sleep_time in np.arange(0,30,1):
         run_benchmark(N_RUNS, output_file,sleep_time)

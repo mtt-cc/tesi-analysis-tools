@@ -410,9 +410,9 @@ if [ "$ACTION" == "install" ]; then
     install_k3s
     if [ "$CLUSTER_TYPE" == "robot" ]; then
         install_multus
-        apply_can0
+        # apply_can0
     fi
-    install_metallb
+    # install_metallb
     #install_inginx_ingress
     # install_prometheus_grafana
     #install_liqo
