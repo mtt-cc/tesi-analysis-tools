@@ -1,3 +1,12 @@
+##################################################
+#        FLUIDOS DISCOVERY TIME BENCHMARK        #
+##################################################
+#   The benchmark measures the time it takes     #
+#   from the moment the discovery pod is started #
+#   to the moment the first KnownClusters CR     #
+#   is created.                                  #
+##################################################
+
 from time import sleep
 from datetime import datetime, timezone, timedelta
 from kubernetes import client, config, watch

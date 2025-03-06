@@ -1,3 +1,13 @@
+##################################################
+#  FLUIDOS DISCOVERY TIME BENCHMARK - WAIT RANGE #
+##################################################
+#    This variation of the benchmark waits for a #
+#    range of different times before re-enabling #
+#    the DaemonSet. The goal is to see how       #
+#    different sleep times affect the time it    #
+#    takes for the KnownClusters CR to reappear. #
+##################################################
+
 import os
 from time import sleep
 from datetime import datetime, timezone, timedelta
@@ -16,7 +26,8 @@ cr_api_group = "network.fluidos.eu"
 cr_api_version = "v1alpha1"
 cr_kind_plural = "knownclusters"
 cr_kind = "KnownCluster"
-
+# Defined to accept the discovery of a specific cluster
+# this is necessary for repeatibility reasons
 vm_addr = "65"
 
 # Clients
