@@ -130,7 +130,8 @@ npDiscovery:
   enabled: false
   name: np-fluidos-discovery
   imageName: registry.gitlab.com/pi-lar/neuropil-k8s/fluidos_discovery
-  np_bootstrap_url: '*:udp4:demo.neuropil.io:3400'
+  # np_bootstrap_url: '*:udp4:demo.neuropil.io:3400'
+  np_bootstrap_url: '08081fe3f92adf33e653c6e43e6302c8a4eee77d7b2e20c1bf8d69202822fdc7:udp4:130.192.225.31:2345'
 
 networkManager:
   # -- The number of Network Manager, which can be increased for active/passive high availability.
