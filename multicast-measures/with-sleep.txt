@@ -1,0 +1,574 @@
+Overall time benchmark
+
+--- Run 1 ---
+2025-03-10 14:43:30.810172 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:43:30.810219 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:43:30.829022 Found 1 pods to wait for deletion...
+2025-03-10 14:43:30.851545 Event: ADDED node-network-manager-vwx8x
+2025-03-10 14:43:31.515021 Event: MODIFIED node-network-manager-vwx8x
+2025-03-10 14:43:31.897629 Event: MODIFIED node-network-manager-vwx8x
+2025-03-10 14:43:31.922197 All DaemonSet pods have been deleted.
+Deletion time: 1.144651 seconds
+sleeping for 0.0 seconds
+CRs left: 0
+CR deletion time: 0.042478 seconds
+2025-03-10 14:43:31.966851 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.051604 seconds
+2025-03-10 14:43:32.018536 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:43:32.036737 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:43:32.061836 Event: ADDED node-network-manager-j4cq9
+2025-03-10 14:43:32.061904 Pod node-network-manager-j4cq9 added.
+Pod start time: 0.026861 seconds
+Initialization took: 0.045 seconds
+2025-03-10 14:43:32.064048 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:43:35.032203 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:43:35.033084 Run 1 startup time: 3.01 seconds
+
+--- Run 2 ---
+2025-03-10 14:43:35.051111 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:43:35.051170 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:43:35.085118 Found 1 pods to wait for deletion...
+2025-03-10 14:43:35.116014 Event: ADDED node-network-manager-j4cq9
+2025-03-10 14:43:35.613459 Event: MODIFIED node-network-manager-j4cq9
+2025-03-10 14:43:36.238392 Event: MODIFIED node-network-manager-j4cq9
+2025-03-10 14:43:36.628579 Event: MODIFIED node-network-manager-j4cq9
+2025-03-10 14:43:36.653630 All DaemonSet pods have been deleted.
+Deletion time: 1.62207 seconds
+sleeping for 0.0 seconds
+CRs left: 0
+CR deletion time: 0.052511 seconds
+2025-03-10 14:43:36.708234 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.118713 seconds
+2025-03-10 14:43:36.827029 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:43:36.844196 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:43:36.870521 Event: ADDED node-network-manager-g5gg6
+2025-03-10 14:43:36.870585 Pod node-network-manager-g5gg6 added.
+Pod start time: 0.027998 seconds
+Initialization took: 0.045 seconds
+2025-03-10 14:43:36.872598 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:43:40.033093 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:43:40.033966 Run 2 startup time: 3.21 seconds
+
+--- Run 3 ---
+2025-03-10 14:43:40.052332 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:43:40.052388 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:43:40.096258 Found 1 pods to wait for deletion...
+2025-03-10 14:43:40.129061 Event: ADDED node-network-manager-g5gg6
+2025-03-10 14:43:42.318075 Event: MODIFIED node-network-manager-g5gg6
+2025-03-10 14:43:42.656818 Event: MODIFIED node-network-manager-g5gg6
+2025-03-10 14:43:42.680460 All DaemonSet pods have been deleted.
+Deletion time: 2.648096 seconds
+sleeping for 0.0 seconds
+CRs left: 0
+CR deletion time: 0.037675 seconds
+2025-03-10 14:43:42.720362 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.137422 seconds
+2025-03-10 14:43:42.857856 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:43:42.875777 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:43:42.903218 Event: ADDED node-network-manager-jtn7x
+2025-03-10 14:43:42.903281 Pod node-network-manager-jtn7x added.
+Pod start time: 0.029095 seconds
+Initialization took: 0.047 seconds
+2025-03-10 14:43:42.905299 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:43:45.031602 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:43:45.032452 Run 3 startup time: 2.17 seconds
+
+--- Run 4 ---
+2025-03-10 14:43:45.049776 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:43:45.049834 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:43:45.145849 Found 1 pods to wait for deletion...
+2025-03-10 14:43:45.175549 Event: ADDED node-network-manager-jtn7x
+2025-03-10 14:43:45.672785 Event: MODIFIED node-network-manager-jtn7x
+2025-03-10 14:43:47.241003 Event: MODIFIED node-network-manager-jtn7x
+2025-03-10 14:43:47.686200 Event: MODIFIED node-network-manager-jtn7x
+2025-03-10 14:43:47.711264 All DaemonSet pods have been deleted.
+Deletion time: 2.680401 seconds
+sleeping for 0.0 seconds
+CRs left: 0
+CR deletion time: 0.036339 seconds
+2025-03-10 14:43:47.749852 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.126699 seconds
+2025-03-10 14:43:47.876624 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:43:47.895163 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:43:47.922088 Event: ADDED node-network-manager-8jszz
+2025-03-10 14:43:47.922149 Pod node-network-manager-8jszz added.
+Pod start time: 0.02859 seconds
+Initialization took: 0.047 seconds
+2025-03-10 14:43:47.924167 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:43:50.035553 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:43:50.036402 Run 4 startup time: 2.16 seconds
+
+--- Run 5 ---
+2025-03-10 14:43:50.054594 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:43:50.054653 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:43:50.087250 Found 1 pods to wait for deletion...
+2025-03-10 14:43:50.116589 Event: ADDED node-network-manager-8jszz
+2025-03-10 14:43:50.700355 Event: MODIFIED node-network-manager-8jszz
+2025-03-10 14:43:52.230113 Event: MODIFIED node-network-manager-8jszz
+2025-03-10 14:43:52.715859 Event: MODIFIED node-network-manager-8jszz
+2025-03-10 14:43:52.739523 All DaemonSet pods have been deleted.
+Deletion time: 2.704611 seconds
+sleeping for 0.0 seconds
+CRs left: 0
+CR deletion time: 0.036693 seconds
+2025-03-10 14:43:52.778278 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.123596 seconds
+2025-03-10 14:43:52.901955 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:43:52.919716 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:43:52.946887 Event: ADDED node-network-manager-n9qxf
+2025-03-10 14:43:52.946952 Pod node-network-manager-n9qxf added.
+Pod start time: 0.028853 seconds
+Initialization took: 0.047 seconds
+2025-03-10 14:43:52.949042 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:44:00.032191 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:44:00.032971 Run 5 startup time: 7.13 seconds
+
+Average time for CR to reappear over 5 runs: 3.54 seconds
+Results saved to test.txt
+Overall time benchmark
+
+--- Run 1 ---
+2025-03-10 14:44:00.052568 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:44:00.052626 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:44:00.086001 Found 1 pods to wait for deletion...
+2025-03-10 14:44:00.115637 Event: ADDED node-network-manager-n9qxf
+2025-03-10 14:44:00.752037 Event: MODIFIED node-network-manager-n9qxf
+2025-03-10 14:44:01.766097 Event: MODIFIED node-network-manager-n9qxf
+2025-03-10 14:44:01.792150 All DaemonSet pods have been deleted.
+Deletion time: 1.760126 seconds
+sleeping for 0.4 seconds
+CRs left: 0
+CR deletion time: 0.037565 seconds
+2025-03-10 14:44:01.831898 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.109077 seconds
+2025-03-10 14:44:01.941066 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:44:01.959299 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:44:01.987531 Event: ADDED node-network-manager-7tclj
+2025-03-10 14:44:01.987609 Pod node-network-manager-7tclj added.
+Pod start time: 0.030023 seconds
+Initialization took: 0.048 seconds
+2025-03-10 14:44:01.989796 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:44:05.037726 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:44:05.038434 Run 1 startup time: 3.10 seconds
+
+--- Run 2 ---
+2025-03-10 14:44:05.056741 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:44:05.056802 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:44:05.089687 Found 1 pods to wait for deletion...
+2025-03-10 14:44:05.189679 Event: ADDED node-network-manager-7tclj
+2025-03-10 14:44:07.424050 Event: MODIFIED node-network-manager-7tclj
+2025-03-10 14:44:07.798720 Event: MODIFIED node-network-manager-7tclj
+2025-03-10 14:44:07.823565 All DaemonSet pods have been deleted.
+Deletion time: 2.786699 seconds
+sleeping for 0.4 seconds
+CRs left: 0
+CR deletion time: 0.035396 seconds
+2025-03-10 14:44:07.861158 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.117156 seconds
+2025-03-10 14:44:07.978385 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:44:07.994971 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:44:08.022521 Event: ADDED node-network-manager-sghjg
+2025-03-10 14:44:08.022585 Pod node-network-manager-sghjg added.
+Pod start time: 0.029228 seconds
+Initialization took: 0.046 seconds
+2025-03-10 14:44:08.024600 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:44:15.033455 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:44:15.034468 Run 2 startup time: 7.06 seconds
+
+--- Run 3 ---
+2025-03-10 14:44:15.053025 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:44:15.053084 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:44:15.086489 Found 1 pods to wait for deletion...
+2025-03-10 14:44:15.185985 Event: ADDED node-network-manager-sghjg
+2025-03-10 14:44:15.724992 Event: MODIFIED node-network-manager-sghjg
+2025-03-10 14:44:15.842511 Event: MODIFIED node-network-manager-sghjg
+2025-03-10 14:44:15.866878 All DaemonSet pods have been deleted.
+Deletion time: 0.833909 seconds
+sleeping for 0.4 seconds
+CRs left: 0
+CR deletion time: 0.036093 seconds
+2025-03-10 14:44:15.905041 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.122451 seconds
+2025-03-10 14:44:16.027570 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:44:16.042927 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:44:16.061786 Event: ADDED node-network-manager-kfk4l
+2025-03-10 14:44:16.061814 Pod node-network-manager-kfk4l added.
+Pod start time: 0.02047 seconds
+Initialization took: 0.036 seconds
+2025-03-10 14:44:16.063818 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:44:20.032433 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:44:20.033295 Run 3 startup time: 4.00 seconds
+
+--- Run 4 ---
+2025-03-10 14:44:20.051339 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:44:20.051398 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:44:20.083429 Found 1 pods to wait for deletion...
+2025-03-10 14:44:20.183825 Event: ADDED node-network-manager-kfk4l
+2025-03-10 14:44:21.442781 Event: MODIFIED node-network-manager-kfk4l
+2025-03-10 14:44:21.885953 Event: MODIFIED node-network-manager-kfk4l
+2025-03-10 14:44:21.911015 All DaemonSet pods have been deleted.
+Deletion time: 1.879388 seconds
+sleeping for 0.4 seconds
+CRs left: 0
+CR deletion time: 0.035286 seconds
+2025-03-10 14:44:21.948471 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.119281 seconds
+2025-03-10 14:44:22.067823 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:44:22.085422 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:44:22.116786 Event: ADDED node-network-manager-nb9nh
+2025-03-10 14:44:22.116842 Pod node-network-manager-nb9nh added.
+Pod start time: 0.033005 seconds
+Initialization took: 0.051 seconds
+2025-03-10 14:44:22.118845 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:44:25.032306 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:44:25.033156 Run 4 startup time: 2.96 seconds
+
+--- Run 5 ---
+2025-03-10 14:44:25.051305 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:44:25.051363 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:44:25.082266 Found 1 pods to wait for deletion...
+2025-03-10 14:44:25.111866 Event: ADDED node-network-manager-nb9nh
+2025-03-10 14:44:27.437715 Event: MODIFIED node-network-manager-nb9nh
+2025-03-10 14:44:27.917457 Event: MODIFIED node-network-manager-nb9nh
+2025-03-10 14:44:27.942613 All DaemonSet pods have been deleted.
+Deletion time: 2.911002 seconds
+sleeping for 0.4 seconds
+CRs left: 0
+CR deletion time: 0.035428 seconds
+2025-03-10 14:44:27.980120 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.125552 seconds
+2025-03-10 14:44:28.105743 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:44:28.123063 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:44:28.151773 Event: ADDED node-network-manager-w8c57
+2025-03-10 14:44:28.151851 Pod node-network-manager-w8c57 added.
+Pod start time: 0.030431 seconds
+Initialization took: 0.048 seconds
+2025-03-10 14:44:28.153997 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:44:35.033085 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:44:35.033880 Run 5 startup time: 6.93 seconds
+
+Average time for CR to reappear over 5 runs: 4.81 seconds
+Results saved to test.txt
+Overall time benchmark
+
+--- Run 1 ---
+2025-03-10 14:44:35.052796 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:44:35.052857 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:44:35.085020 Found 1 pods to wait for deletion...
+2025-03-10 14:44:35.118096 Event: ADDED node-network-manager-w8c57
+2025-03-10 14:44:35.744035 Event: MODIFIED node-network-manager-w8c57
+2025-03-10 14:44:35.957568 Event: MODIFIED node-network-manager-w8c57
+2025-03-10 14:44:35.982571 All DaemonSet pods have been deleted.
+Deletion time: 0.949883 seconds
+sleeping for 0.8 seconds
+CRs left: 0
+CR deletion time: 0.036426 seconds
+2025-03-10 14:44:36.021065 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.122203 seconds
+2025-03-10 14:44:36.143350 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:44:36.160506 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:44:36.187083 Event: ADDED node-network-manager-6bnjr
+2025-03-10 14:44:36.187147 Pod node-network-manager-6bnjr added.
+Pod start time: 0.028255 seconds
+Initialization took: 0.045 seconds
+2025-03-10 14:44:36.189176 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:44:40.033745 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:44:40.034235 Run 1 startup time: 3.89 seconds
+
+--- Run 2 ---
+2025-03-10 14:44:40.052509 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:44:40.052569 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:44:40.082425 Found 1 pods to wait for deletion...
+2025-03-10 14:44:40.121152 Event: ADDED node-network-manager-6bnjr
+2025-03-10 14:44:41.625209 Event: MODIFIED node-network-manager-6bnjr
+2025-03-10 14:44:42.001532 Event: MODIFIED node-network-manager-6bnjr
+2025-03-10 14:44:42.028443 All DaemonSet pods have been deleted.
+Deletion time: 1.995859 seconds
+sleeping for 0.8 seconds
+CRs left: 0
+CR deletion time: 0.034786 seconds
+2025-03-10 14:44:42.065628 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.123676 seconds
+2025-03-10 14:44:42.189696 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:44:42.207400 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:44:42.247572 Event: ADDED node-network-manager-sbbp9
+2025-03-10 14:44:42.247640 Pod node-network-manager-sbbp9 added.
+Pod start time: 0.041162 seconds
+Initialization took: 0.059 seconds
+2025-03-10 14:44:42.248833 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:44:45.031522 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:44:45.032459 Run 2 startup time: 2.84 seconds
+
+--- Run 3 ---
+2025-03-10 14:44:45.049960 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:44:45.050027 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:44:45.081444 Found 1 pods to wait for deletion...
+2025-03-10 14:44:45.116368 Event: ADDED node-network-manager-sbbp9
+2025-03-10 14:44:47.546692 Event: MODIFIED node-network-manager-sbbp9
+2025-03-10 14:44:48.035837 Event: MODIFIED node-network-manager-sbbp9
+2025-03-10 14:44:48.059628 All DaemonSet pods have been deleted.
+Deletion time: 3.028627 seconds
+sleeping for 0.8 seconds
+CRs left: 0
+CR deletion time: 0.03426 seconds
+2025-03-10 14:44:48.095947 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.120792 seconds
+2025-03-10 14:44:48.216809 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:44:48.234340 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:44:48.263134 Event: ADDED node-network-manager-zmcm8
+2025-03-10 14:44:48.263215 Pod node-network-manager-zmcm8 added.
+Pod start time: 0.030575 seconds
+Initialization took: 0.048 seconds
+2025-03-10 14:44:48.265392 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:44:55.033019 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:44:55.033796 Run 3 startup time: 6.82 seconds
+
+--- Run 4 ---
+2025-03-10 14:44:55.053181 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:44:55.053240 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:44:55.162068 Found 1 pods to wait for deletion...
+2025-03-10 14:44:55.192880 Event: ADDED node-network-manager-zmcm8
+2025-03-10 14:44:55.646278 Event: MODIFIED node-network-manager-zmcm8
+2025-03-10 14:44:56.074845 Event: MODIFIED node-network-manager-zmcm8
+2025-03-10 14:44:56.098487 All DaemonSet pods have been deleted.
+Deletion time: 1.066529 seconds
+sleeping for 0.8 seconds
+CRs left: 0
+CR deletion time: 0.033591 seconds
+2025-03-10 14:44:56.134528 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.093094 seconds
+2025-03-10 14:44:56.227723 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:44:56.246531 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:44:56.274096 Event: ADDED node-network-manager-dvgk2
+2025-03-10 14:44:56.274154 Pod node-network-manager-dvgk2 added.
+Pod start time: 0.029498 seconds
+Initialization took: 0.048 seconds
+2025-03-10 14:44:56.276614 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:45:00.033156 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:45:00.034019 Run 4 startup time: 3.81 seconds
+
+--- Run 5 ---
+2025-03-10 14:45:00.052546 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:45:00.052609 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:45:00.086579 Found 1 pods to wait for deletion...
+2025-03-10 14:45:00.117429 Event: ADDED node-network-manager-dvgk2
+2025-03-10 14:45:01.643245 Event: MODIFIED node-network-manager-dvgk2
+2025-03-10 14:45:02.106237 Event: MODIFIED node-network-manager-dvgk2
+2025-03-10 14:45:02.130965 All DaemonSet pods have been deleted.
+Deletion time: 2.098479 seconds
+sleeping for 0.8 seconds
+CRs left: 0
+CR deletion time: 0.036273 seconds
+2025-03-10 14:45:02.169336 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.099572 seconds
+2025-03-10 14:45:02.268999 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:45:02.286395 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:45:02.314767 Event: ADDED node-network-manager-59brz
+2025-03-10 14:45:02.314825 Pod node-network-manager-59brz added.
+Pod start time: 0.030006 seconds
+Initialization took: 0.047 seconds
+2025-03-10 14:45:02.316813 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:45:05.033653 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:45:05.034455 Run 5 startup time: 2.76 seconds
+
+Average time for CR to reappear over 5 runs: 4.02 seconds
+Results saved to test.txt
+Overall time benchmark
+
+--- Run 1 ---
+2025-03-10 14:45:05.054221 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:45:05.054279 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:45:05.084998 Found 1 pods to wait for deletion...
+2025-03-10 14:45:05.116155 Event: ADDED node-network-manager-59brz
+2025-03-10 14:45:05.153559 Event: MODIFIED node-network-manager-59brz
+2025-03-10 14:45:06.845370 Event: MODIFIED node-network-manager-59brz
+2025-03-10 14:45:07.140820 Event: MODIFIED node-network-manager-59brz
+2025-03-10 14:45:07.166418 All DaemonSet pods have been deleted.
+Deletion time: 2.133801 seconds
+sleeping for 1.2000000000000002 seconds
+CRs left: 0
+CR deletion time: 0.041751 seconds
+2025-03-10 14:45:08.211277 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.107683 seconds
+2025-03-10 14:45:08.319103 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:45:08.339958 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:45:08.375561 Event: ADDED node-network-manager-zk7d9
+2025-03-10 14:45:08.375640 Pod node-network-manager-zk7d9 added.
+Pod start time: 0.037484 seconds
+Initialization took: 0.058 seconds
+2025-03-10 14:45:08.377972 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:45:15.032742 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:45:15.033981 Run 1 startup time: 6.71 seconds
+
+--- Run 2 ---
+2025-03-10 14:45:15.052529 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:45:15.052600 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:45:15.085932 Found 1 pods to wait for deletion...
+2025-03-10 14:45:15.112706 Event: ADDED node-network-manager-zk7d9
+2025-03-10 14:45:15.746711 Event: MODIFIED node-network-manager-zk7d9
+2025-03-10 14:45:16.186162 Event: MODIFIED node-network-manager-zk7d9
+2025-03-10 14:45:16.212001 All DaemonSet pods have been deleted.
+Deletion time: 1.179653 seconds
+sleeping for 1.2000000000000002 seconds
+CRs left: 0
+CR deletion time: 0.036744 seconds
+2025-03-10 14:45:17.251612 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.098908 seconds
+2025-03-10 14:45:17.350611 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:45:17.368901 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:45:17.397936 Event: ADDED node-network-manager-v22pz
+2025-03-10 14:45:17.398015 Pod node-network-manager-v22pz added.
+Pod start time: 0.030792 seconds
+Initialization took: 0.049 seconds
+2025-03-10 14:45:17.400155 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:45:20.036558 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:45:20.037316 Run 2 startup time: 2.69 seconds
+
+--- Run 3 ---
+2025-03-10 14:45:20.055712 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:45:20.055768 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:45:20.088466 Found 1 pods to wait for deletion...
+2025-03-10 14:45:20.119818 Event: ADDED node-network-manager-v22pz
+2025-03-10 14:45:20.205099 Event: MODIFIED node-network-manager-v22pz
+2025-03-10 14:45:21.822028 Event: MODIFIED node-network-manager-v22pz
+2025-03-10 14:45:22.216001 Event: MODIFIED node-network-manager-v22pz
+2025-03-10 14:45:22.240513 All DaemonSet pods have been deleted.
+Deletion time: 2.2047 seconds
+sleeping for 1.2000000000000002 seconds
+CRs left: 0
+CR deletion time: 0.038407 seconds
+2025-03-10 14:45:23.281114 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.100709 seconds
+2025-03-10 14:45:23.381910 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:45:23.398306 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:45:23.418814 Event: ADDED node-network-manager-v46hn
+2025-03-10 14:45:23.418870 Pod node-network-manager-v46hn added.
+Pod start time: 0.021622 seconds
+Initialization took: 0.038 seconds
+2025-03-10 14:45:23.420220 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:45:30.033396 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:45:30.034004 Run 3 startup time: 6.65 seconds
+
+--- Run 4 ---
+2025-03-10 14:45:30.049168 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:45:30.049202 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:45:30.069760 Found 1 pods to wait for deletion...
+2025-03-10 14:45:30.132164 Event: ADDED node-network-manager-v46hn
+2025-03-10 14:45:30.637039 Event: MODIFIED node-network-manager-v46hn
+2025-03-10 14:45:31.262062 Event: MODIFIED node-network-manager-v46hn
+2025-03-10 14:45:31.285256 All DaemonSet pods have been deleted.
+Deletion time: 1.252777 seconds
+sleeping for 1.2000000000000002 seconds
+CRs left: 0
+CR deletion time: 0.038379 seconds
+2025-03-10 14:45:32.325909 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.101589 seconds
+2025-03-10 14:45:32.427574 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:45:32.444998 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:45:32.473223 Event: ADDED node-network-manager-h8wdj
+2025-03-10 14:45:32.473284 Pod node-network-manager-h8wdj added.
+Pod start time: 0.029946 seconds
+Initialization took: 0.047 seconds
+2025-03-10 14:45:32.475353 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:45:35.032960 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:45:35.033749 Run 4 startup time: 2.61 seconds
+
+--- Run 5 ---
+2025-03-10 14:45:35.052435 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:45:35.052489 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:45:35.084856 Found 1 pods to wait for deletion...
+2025-03-10 14:45:35.114303 Event: ADDED node-network-manager-h8wdj
+2025-03-10 14:45:35.283577 Event: MODIFIED node-network-manager-h8wdj
+2025-03-10 14:45:36.824807 Event: MODIFIED node-network-manager-h8wdj
+2025-03-10 14:45:37.304087 Event: MODIFIED node-network-manager-h8wdj
+2025-03-10 14:45:37.329943 All DaemonSet pods have been deleted.
+Deletion time: 2.297681 seconds
+sleeping for 1.2000000000000002 seconds
+CRs left: 0
+CR deletion time: 0.037736 seconds
+2025-03-10 14:45:38.369961 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.099259 seconds
+2025-03-10 14:45:38.469294 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:45:38.486871 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:45:38.513901 Event: ADDED node-network-manager-xjrdf
+2025-03-10 14:45:38.513964 Pod node-network-manager-xjrdf added.
+Pod start time: 0.028696 seconds
+Initialization took: 0.046 seconds
+2025-03-10 14:45:38.516084 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:45:45.032914 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:45:45.033658 Run 5 startup time: 6.56 seconds
+
+Average time for CR to reappear over 5 runs: 5.04 seconds
+Results saved to test.txt
+Overall time benchmark
+
+--- Run 1 ---
+2025-03-10 14:45:45.052505 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:45:45.052563 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:45:45.105852 Found 1 pods to wait for deletion...
+2025-03-10 14:45:45.201439 Event: ADDED node-network-manager-xjrdf
+2025-03-10 14:45:45.821416 Event: MODIFIED node-network-manager-xjrdf
+2025-03-10 14:45:46.348626 Event: MODIFIED node-network-manager-xjrdf
+2025-03-10 14:45:46.373591 All DaemonSet pods have been deleted.
+Deletion time: 1.344084 seconds
+sleeping for 1.6 seconds
+CRs left: 0
+CR deletion time: 0.03353 seconds
+2025-03-10 14:45:47.412867 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.098058 seconds
+2025-03-10 14:45:47.511007 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:45:47.528402 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:45:47.553613 Event: ADDED node-network-manager-w5c6s
+2025-03-10 14:45:47.553693 Pod node-network-manager-w5c6s added.
+Pod start time: 0.027048 seconds
+Initialization took: 0.045 seconds
+2025-03-10 14:45:47.555933 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:45:50.033352 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:45:50.034184 Run 1 startup time: 2.52 seconds
+
+--- Run 2 ---
+2025-03-10 14:45:50.053254 DaemonSet disabled (non-existent node label applied).
+2025-03-10 14:45:50.053312 Waiting for DaemonSet pods to be deleted...
+2025-03-10 14:45:50.086188 Found 1 pods to wait for deletion...
+2025-03-10 14:45:50.116024 Event: ADDED node-network-manager-w5c6s
+2025-03-10 14:45:50.368235 Event: MODIFIED node-network-manager-w5c6s
+2025-03-10 14:45:51.945166 Event: MODIFIED node-network-manager-w5c6s
+2025-03-10 14:45:52.477065 Event: MODIFIED node-network-manager-w5c6s
+2025-03-10 14:45:52.493545 All DaemonSet pods have been deleted.
+Deletion time: 2.460058 seconds
+sleeping for 1.6 seconds
+CRs left: 0
+CR deletion time: 0.054403 seconds
+2025-03-10 14:45:53.549476 All KnownClusters CRs have been deleted.
+Events left: 0
+Events deletion time: 0.098002 seconds
+2025-03-10 14:45:53.647556 All events in namespace 'fluidos' have been deleted.
+2025-03-10 14:45:53.664556 DaemonSet re-enabled (original node label restored).
+2025-03-10 14:45:53.693028 Event: ADDED node-network-manager-q74pj
+2025-03-10 14:45:53.693087 Pod node-network-manager-q74pj added.
+Pod start time: 0.030231 seconds
+Initialization took: 0.047 seconds
+2025-03-10 14:45:53.695191 Watching for the creation of the first KnownClusters CR...
+2025-03-10 14:46:00.033255 Detected creation of KnownClusters CR: knowncluster-cqrok2my4k
+2025-03-10 14:46:00.034014 Run 2 startup time: 6.39 seconds

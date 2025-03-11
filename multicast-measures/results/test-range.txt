@@ -1,0 +1,241 @@
+multicast_benchmark_time_samples
+multicast_benchmark_time_samples 0.0
+4.373754
+4.85557
+4.844126
+multicast_benchmark_time_samples 0.1
+4.75459
+4.74108
+4.751222
+multicast_benchmark_time_samples 0.2
+4.656605
+4.653788
+4.654231
+multicast_benchmark_time_samples 0.30000000000000004
+4.55373
+4.558751
+4.543818
+multicast_benchmark_time_samples 0.4
+4.455928
+4.457244
+4.455654
+multicast_benchmark_time_samples 0.5
+4.35556
+4.354154
+4.361062
+multicast_benchmark_time_samples 0.6000000000000001
+4.251031
+4.248246
+4.252435
+multicast_benchmark_time_samples 0.7000000000000001
+4.133543
+4.152933
+4.158561
+multicast_benchmark_time_samples 0.8
+4.034263
+4.055959
+4.057428
+multicast_benchmark_time_samples 0.9
+3.951748
+3.956778
+3.946592
+multicast_benchmark_time_samples 1.0
+3.852581
+3.840856
+8.83479
+multicast_benchmark_time_samples 1.1
+3.735625
+3.741942
+3.759359
+multicast_benchmark_time_samples 1.2000000000000002
+3.669313
+3.668065
+3.642031
+multicast_benchmark_time_samples 1.3
+3.545444
+3.557185
+3.553398
+multicast_benchmark_time_samples 1.4000000000000001
+3.436151
+3.454542
+3.471337
+multicast_benchmark_time_samples 1.5
+3.350321
+3.344574
+3.365552
+multicast_benchmark_time_samples 1.6
+3.281586
+3.252884
+3.248997
+multicast_benchmark_time_samples 1.7000000000000002
+3.147141
+3.182067
+3.143224
+multicast_benchmark_time_samples 1.8
+3.043213
+3.077288
+3.057185
+multicast_benchmark_time_samples 1.9000000000000001
+2.956826
+2.949964
+7.993216
+multicast_benchmark_time_samples 2.0
+2.812736
+2.855687
+2.872636
+multicast_benchmark_time_samples 2.1
+2.743025
+2.758708
+2.761298
+multicast_benchmark_time_samples 2.2
+2.654651
+2.652528
+2.642808
+multicast_benchmark_time_samples 2.3000000000000003
+2.523625
+2.558636
+2.543717
+multicast_benchmark_time_samples 2.4000000000000004
+2.457085
+2.43226
+2.446319
+multicast_benchmark_time_samples 2.5
+2.343572
+2.346176
+2.341868
+multicast_benchmark_time_samples 2.6
+7.256293
+2.232573
+2.241858
+multicast_benchmark_time_samples 2.7
+7.146355
+7.142141
+2.155763
+multicast_benchmark_time_samples 2.8000000000000003
+2.074556
+2.03855
+7.040828
+multicast_benchmark_time_samples 2.9000000000000004
+6.94476
+6.935668
+6.938304
+multicast_benchmark_time_samples 3.0
+6.836323
+6.851631
+6.84155
+multicast_benchmark_time_samples 3.1
+6.744168
+6.741764
+6.739672
+multicast_benchmark_time_samples 3.2
+6.639284
+6.640281
+6.642139
+multicast_benchmark_time_samples 3.3000000000000003
+6.535084
+6.551424
+6.538677
+multicast_benchmark_time_samples 3.4000000000000004
+6.442337
+6.441406
+6.465248
+multicast_benchmark_time_samples 3.5
+6.319601
+6.341024
+6.357801
+multicast_benchmark_time_samples 3.6
+6.241108
+6.235934
+6.248437
+multicast_benchmark_time_samples 3.7
+6.157994
+6.144474
+6.151816
+multicast_benchmark_time_samples 3.8000000000000003
+6.043635
+6.051951
+6.045871
+multicast_benchmark_time_samples 3.9000000000000004
+5.955908
+5.951495
+5.972971
+multicast_benchmark_time_samples 4.0
+5.838885
+5.853254
+5.855185
+multicast_benchmark_time_samples 4.1000000000000005
+5.750297
+5.753797
+5.790685
+multicast_benchmark_time_samples 4.2
+5.628298
+5.65697
+5.654909
+multicast_benchmark_time_samples 4.3
+5.53992
+5.538881
+5.540928
+multicast_benchmark_time_samples 4.4
+5.438645
+5.443823
+5.448402
+multicast_benchmark_time_samples 4.5
+5.342546
+5.340816
+5.344485
+multicast_benchmark_time_samples 4.6000000000000005
+5.2454
+5.231987
+5.276758
+multicast_benchmark_time_samples 4.7
+5.158216
+5.145032
+5.144589
+multicast_benchmark_time_samples 4.800000000000001
+5.03561
+5.056352
+5.066743
+multicast_benchmark_time_samples 4.9
+4.950659
+4.942137
+4.949994
+multicast_benchmark_time_samples 5.0
+4.838593
+4.840716
+4.852911
+multicast_benchmark_time_samples 5.1000000000000005
+4.741151
+4.740339
+4.74197
+multicast_benchmark_time_samples 5.2
+4.627965
+4.641654
+4.647502
+multicast_benchmark_time_samples 5.300000000000001
+4.558518
+4.554617
+4.545126
+multicast_benchmark_time_samples 5.4
+4.441837
+4.464005
+4.451423
+multicast_benchmark_time_samples 5.5
+4.35761
+4.339815
+4.370149
+multicast_benchmark_time_samples 5.6000000000000005
+4.243492
+4.241652
+4.260954
+multicast_benchmark_time_samples 5.7
+4.143759
+4.156323
+4.155458
+multicast_benchmark_time_samples 5.800000000000001
+4.046548
+4.054534
+4.052061
+multicast_benchmark_time_samples 5.9
+3.940606
+3.952953
+3.957589

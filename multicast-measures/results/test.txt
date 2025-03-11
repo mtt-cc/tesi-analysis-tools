@@ -1,0 +1,222 @@
+multicast_benchmark_time_samples
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+5.930091
+4.829727
+4.857563
+4.846313
+4.840941
+multicast_benchmark_time_samples 0.4
+4.846427
+4.832314
+4.823375
+4.83846
+4.847915
+multicast_benchmark_time_samples 0.8
+4.828838
+4.873072
+4.861947
+4.851216
+4.869725
+multicast_benchmark_time_samples 1.2000000000000002
+3.865723
+multicast_benchmark_time_samples 0.0
+6.7243
+4.859598
+multicast_benchmark_time_samples 0.0
+3.83888
+4.86554
+4.863037
+multicast_benchmark_time_samples 0.0
+6.606491
+4.825739
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+3.566738
+2.54421
+2.49454
+multicast_benchmark_time_samples 0.0
+5.560603
+3.272946
+multicast_benchmark_time_samples 0.0
+5.708571
+3.991742
+2.978799
+6.955264
+3.612098
+multicast_benchmark_time_samples 0.4
+2.864354
+6.531998
+3.801247
+2.751022
+2.712557
+multicast_benchmark_time_samples 0.8
+multicast_benchmark_time_samples 0.0
+4.815115
+3.482144
+2.465177
+2.425831
+2.380556
+multicast_benchmark_time_samples 0.4
+2.360721
+2.329916
+2.285304
+2.251499
+7.200865
+multicast_benchmark_time_samples 0.8
+multicast_benchmark_time_samples 0.0
+6.740767
+3.730544
+multicast_benchmark_time_samples 0.0
+multicast_benchmark_time_samples 0.0
+6.436552
+4.002903
+2.967505
+1.926068
+multicast_benchmark_time_samples 0.0
+3.606952
+2.587915
+2.555814
+2.527185
+2.489703
+multicast_benchmark_time_samples 0.4
+2.44557
+2.425121
+2.397421
+multicast_benchmark_time_samples 0.0
+3.013723
+3.206118
+2.173831
+2.159024
+7.130276
+multicast_benchmark_time_samples 0.4
+3.096683
+7.055119
+4.004905
+2.964533
+6.927385
+multicast_benchmark_time_samples 0.8
+3.890402
+2.84187
+6.81621
+3.805463
+2.764747
+multicast_benchmark_time_samples 1.2000000000000002
+6.713652
+2.685986
+6.651494
+2.605432
+6.56367
+multicast_benchmark_time_samples 1.6
+2.522409
+6.385742
+multicast_benchmark_time_samples 0.0
+6.239372
+3.900054
+3.186319
+2.142655
+2.105766
+multicast_benchmark_time_samples 0.4
+2.09163
+7.054126
+4.01075
+multicast_benchmark_time_samples 0.0
+2.830992
+4.94996
+4.951593
+4.950077
+4.921948
+multicast_benchmark_time_samples 0.4
+4.95771
+4.964727
+multicast_benchmark_time_samples 0.0
+4.040095
+4.832163
+4.832079
+4.763908
+4.827111
+multicast_benchmark_time_samples 0.4
+4.84522
+4.856298
+4.842522
+multicast_benchmark_time_samples 0.0
+4.820684
+4.847828
+4.849893
+4.848201
+4.842547
+multicast_benchmark_time_samples 0.4
+4.852695
+4.852272
+4.771403
+4.857677
+4.852574
+multicast_benchmark_time_samples 0.8
+4.847782
+4.736603
+9.856533
+4.832114
+4.831222
+multicast_benchmark_time_samples 1.2000000000000002
+3.834788
+3.852883
+3.863077
+8.836385
+3.839719
+multicast_benchmark_time_samples 1.6
+3.847324
+3.860517
+3.851827
+3.852381
+3.855993
+multicast_benchmark_time_samples 2.0
+2.829752
+2.85661
+2.859454
+2.847688
+2.853452
+multicast_benchmark_time_samples 2.4000000000000004
+2.853593
+2.840236
+multicast_benchmark_time_samples 0.0
+4.133928
+4.855013
+4.854538
+4.857158
+4.853211
+multicast_benchmark_time_samples 0.4
+4.85026
+multicast_benchmark_time_samples 0.0
+6.825853
+3.821516
+3.831342
+multicast_benchmark_time_samples 0.0
+3.199541
+4.341447
+4.344663
+4.36924
+multicast_benchmark_time_samples 0.0
+7.168711
+4.552628
+4.536407
+4.550155
+multicast_benchmark_time_samples 0.0
+2.436071
+4.866814
+4.854298
+multicast_benchmark_time_samples 0.0
+5.815666
+4.361303
+4.344817
+multicast_benchmark_time_samples 0.0
+2.564511
+4.551445
+4.536297
+4.543279

@@ -27,14 +27,18 @@ cr_api_group = "network.fluidos.eu"
 cr_api_version = "v1alpha1"
 cr_kind_plural = "knownclusters"
 cr_kind = "KnownCluster"
+
 # Defined to accept the discovery of a specific cluster
-# this is necessary for repeatibility reasons
-vm_addr = "65"
+# this is necessary for repeatibility reasons if more than two clusters are running 
+# on the same network
+
+vm_addr = f"172.18.0" + ".13" + ":30000"
 
 # Clients
 v1_daemonset = client.AppsV1Api()
 v1_custom = client.CustomObjectsApi()
 v1_event = client.CoreV1Api()
+
 
 def disable_daemonset(sleep_time):
     """Patch the DaemonSet to add a non-existent node label (disable it)."""
@@ -45,12 +49,53 @@ def disable_daemonset(sleep_time):
             "value": {"non-existent-label": "true"}
         }
     ]
+
+    # start_time = datetime.now()
+
     v1_daemonset.patch_namespaced_daemon_set(daemonset_name, namespace, patch)
-    print(f"{datetime.now()} DaemonSet disabled (non-existent node label applied).")
-    # for sleep times too small, i suppose the pod does not have enough time to be destroyed
-    # so the system has to wait more time from the moment i reschedule it to the moment it is actually started
-    # use value > 1
-    sleep(int(sleep_time))
+    # print(f"{datetime.now()} DaemonSet disabled (non-existent node label applied).")
+    # # for sleep times too small, i suppose the pod does not have enough time to be destroyed
+    # # so the system has to wait more time from the moment i reschedule it to the moment it is actually started
+    # # use value > 1
+    # # Wait for pods to be deleted using watch
+    # print(f"{datetime.now()} Waiting for DaemonSet pods to be deleted...")
+   
+    # w = watch.Watch()
+    # label_selector = "app.kubernetes.io/name=network-manager"
+    
+    # # First check if there are any pods to wait for
+    # pods = client.CoreV1Api().list_namespaced_pod(
+    #     namespace=namespace, 
+    #     label_selector=label_selector
+    # )
+    
+    # if len(pods.items) > 0:
+    #     print(f"{datetime.now()} Found {len(pods.items)} pods to wait for deletion...")
+    #     for event in w.stream(client.CoreV1Api().list_namespaced_pod, 
+    #                             namespace=namespace,
+    #                             label_selector=label_selector,
+    #                             timeout_seconds=60):
+    #         print(f"{datetime.now()} Event: {event['type']} {event['object'].metadata.name}")
+    #         if event['type'] == 'DELETED':
+    #             print(f"{datetime.now()} Pod {event['object'].metadata.name} deleted.")
+            
+    #         # Check if any pods are still there
+    #         remaining_pods = client.CoreV1Api().list_namespaced_pod(
+    #             namespace=namespace, 
+    #             label_selector=label_selector
+    #         )
+    #         if len(remaining_pods.items) == 0:
+    #             print(f"{datetime.now()} All DaemonSet pods have been deleted.")
+    #             w.stop()
+    #             break
+    # else:
+    #     print(f"{datetime.now()} No pods to wait for, they're already gone.")
+
+    # deletion_time = datetime.now() - start_time
+    # print(f"Deletion time: {deletion_time.total_seconds()} seconds")
+
+    print(f"sleeping for {sleep_time} seconds")
+    sleep(sleep_time)
 
 def enable_daemonset():
     """Patch the DaemonSet to restore the original nodeSelector (enable it)."""
@@ -62,10 +107,34 @@ def enable_daemonset():
         }
     ]
     v1_daemonset.patch_namespaced_daemon_set(daemonset_name, namespace, patch)
+
+    start_time = datetime.now()
+
     print(f"{datetime.now()} DaemonSet re-enabled (original node label restored).")
+    # check for pod creation
+    w = watch.Watch()
+    label_selector = "app.kubernetes.io/name=network-manager"
+    
+    for event in w.stream(client.CoreV1Api().list_namespaced_pod, 
+                            namespace=namespace,
+                            label_selector=label_selector,
+                            timeout_seconds=60):
+        print(f"{datetime.now()} Event: {event['type']} {event['object'].metadata.name}")
+        if event['type'] == 'ADDED':
+            print(f"{datetime.now()} Pod {event['object'].metadata.name} {event['object'].metadata.uid} added.")
+    
+            w.stop()
+            break
+
+    started_time = datetime.now() - start_time
+    print(f"Pod start time: {started_time.total_seconds()} seconds")
+    
 
 def delete_all_knownclusters_cr():
     """Delete all custom resources of type 'KnownCluster'."""
+
+    start_time = datetime.now()
+
     crs = v1_custom.list_namespaced_custom_object(
         group=cr_api_group,
         version=cr_api_version,
@@ -83,11 +152,25 @@ def delete_all_knownclusters_cr():
         )
         if VERBOSE:
             print(f"Deleted KnownClusters CR: {cr_name}")
-    print("All KnownClusters CRs have been deleted.")
+
+    # check that all crs have been deleted
+    # crs = v1_custom.list_namespaced_custom_object(
+    #     group=cr_api_group,
+    #     version=cr_api_version,
+    #     namespace=namespace,
+    #     plural=cr_kind_plural
+    # )
+    # print(f"CRs left: {len(crs['items'])}")
+
+    deletion_time = datetime.now() - start_time    
+    print(f"CR deletion time: {deletion_time.total_seconds()} seconds")
+    print(f"{datetime.now()} All KnownClusters CRs have been deleted.")
 
 def delete_all_events():
     """Delete all event objects in the specified namespace."""
     # List all events in the namespace
+
+    start_time = datetime.now()
     events = v1_event.list_namespaced_event(namespace)
     
     # Iterate through each event and delete it
@@ -99,8 +182,13 @@ def delete_all_events():
                 print(f"Deleted event: {event_name}")  
         except client.exceptions.ApiException as e:
             print(f"Failed to delete event {event_name}: {e.reason}")
-    
+
+    # events = v1_event.list_namespaced_event(namespace)
+    # print(f"Events left: {len(events.items)}")
+    deletion_time = datetime.now() - start_time    
+    print(f"Events deletion time: {deletion_time.total_seconds()} seconds")
     print(f"{datetime.now()} All events in namespace '{namespace}' have been deleted.")
+
 
 # TODO: try this alternative implementation
 # def delete_all_events():
@@ -110,13 +198,6 @@ def delete_all_events():
 #         print(f"All events in namespace '{namespace}' have been deleted.")
 #     except client.exceptions.ApiException as e:
 #         print(f"Failed to delete events: {e.reason}")
-
-# ! the time definition of cr is only seconds, while local is micro, so sometimes if
-# checking via timestamp the event is not considered
-def is_first_timestamp_after(first_time: datetime, second_time: datetime) -> bool:
-    """Compare two timestamps to check if the first is after the second."""
-    print(f"{first_time} - {second_time} - {first_time>second_time}")
-    return first_time > second_time
 
 def watch_for_first_cr_creation():
     """Watch for the creation of the first KnownClusters CR and measure the time it takes."""
@@ -134,7 +215,7 @@ def watch_for_first_cr_creation():
                           version=cr_api_version, 
                           namespace=namespace, 
                           plural=cr_kind_plural):
-        if event['type'] == 'ADDED' and event['object']['spec']['address']==f"192.168.11.{vm_addr}:30000":
+        if event['type'] == 'ADDED' and event['object']['spec']['address']==vm_addr:
             cr_name = event['object']['metadata']['name']
             print(f"{datetime.now()} Detected creation of KnownClusters CR: {cr_name}")
             creation_time = datetime.now() - start_time
@@ -188,8 +269,6 @@ def run_benchmark(n, output_file,sleeptime):
         # sleeptime = random.uniform(20, 25)
         # print(f"Random sleep time selected: {sleeptime:.2f} seconds")
 
-
-
         # Step 1: Disable the DaemonSet
         disable_daemonset(sleeptime)
         # reset the history of cr and events
@@ -226,5 +305,5 @@ if __name__ == "__main__":
     N_RUNS = args.runs
     output_file = args.output
     
-    for sleep_time in np.arange(0,30,1):
+    for sleep_time in np.arange(0,6,0.05):
         run_benchmark(N_RUNS, output_file,sleep_time)
