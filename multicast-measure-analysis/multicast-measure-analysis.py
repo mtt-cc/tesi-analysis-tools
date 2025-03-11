@@ -1,12 +1,184 @@
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Add this function after your imports and other setup code
+
+def setup_publication_style():
+    """Configure consistent styling for all plots."""
+    # Define color scheme
+    colors = {
+        'primary': '#1f77b4',      # Default blue for main data
+        'secondary': '#ff7f0e',    # Orange for comparisons
+        'tertiary': '#2ca02c',     # Green for third series
+        'highlight': '#d62728'     # Red for highlights
+    }
+    
+    # Set consistent styling
+    plt.rcParams.update({
+        'font.family': 'serif',
+        'font.size': 11,
+        'axes.titlesize': 14,
+        'axes.labelsize': 12
+    })
+    
+    # Configure seaborn to use same colors
+    sns.set_palette([colors['primary'], colors['secondary'], colors['tertiary'], colors['highlight']])
+    
+    return colors
+
+def create_histogram(data, title, bins=20, kde=False, freq_count=False, color=None, filter=True, use_seaborn=True):
+    """Create a standardized histogram with consistent styling.
+    
+    Args:
+        data: The data array to plot
+        title: Plot title
+        filename: If provided, save to this filename (without extension)
+        bins: Number of histogram bins
+        kde: Whether to show KDE curve
+        use_seaborn: Whether to use seaborn (True) or matplotlib (False)
+        color: Optional specific color to use
+    """
+    plt.figure(figsize=(10, 6))
+    
+    # Get statistics
+    mean = np.mean(data)
+    std_dev = np.std(data)
+    percentile_5, percentile_95 = np.percentile(data, [5, 95])
+    filtered_data = data
+
+    if filter:
+        # Filter data within 95th percentile
+        filtered_data = filtered_data[(data >= percentile_5)]
+        filtered_data = filtered_data[(data <= percentile_95)] 
+        print(f"Filtered Data: {len(filtered_data)} samples within 5th to 95th percentile")
+    
+    # Use consistent histogram style based on chosen method
+    if use_seaborn:
+        ax = sns.histplot(filtered_data, kde=kde, bins=bins, color=color or COLORS['primary'])
+        if freq_count:
+            # Get the current Axes object and get the height of each bar
+            ax = plt.gca()
+            for p in ax.patches:
+                # Get height and position
+                height = p.get_height()
+                if height > 0:  # Only annotate non-empty bins
+                    # Position the text at the center of each bar, slightly above
+                    x = p.get_x() + p.get_width() / 2
+                    y = height
+                    # Add the count as text
+                    ax.annotate(f'{int(height)}', (x, y), ha='center', va='bottom')
+    else:
+        counts, bins, patches = plt.hist(filtered_data, bins=bins, 
+                                            color=color or COLORS['primary'], 
+                                            edgecolor='black', 
+                                            rwidth=0.9)
+        # Annotate frequencies on the bars if using matplotlib
+        if freq_count:
+            for count, patch in zip(counts, patches):
+                if count != 0:
+                    x = patch.get_x() + patch.get_width() / 2
+                    plt.text(x, count, f"{int(count)}", ha='center', va='bottom')
+    
+    # Consistent styling
+    plt.title(title)
+    plt.xlabel('Time (s)')
+    plt.ylabel('Frequency (count)')
+    plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+    
+    # Add footer with statistics
+    # plt.subplots_adjust(bottom=0.15)
+    # plt.figtext(0.5, 0.01, 
+    #            f"n={len(data)}. Mean={mean:.3f}s, σ={std_dev:.3f}s. 5th-95th percentiles: [{percentile_5:.3f}, {percentile_95:.3f}]",
+    #            ha='center', fontsize=9, style='italic')
+
+    # Display the plot (but don't close it so caller can modify further)
+    plt.tight_layout()
+    plt.draw()
+    
+    # Return the figure and axes objects along with stats for further modifications
+    fig = plt.gcf()
+    ax = plt.gca()
+    return mean, std_dev, percentile_5, percentile_95, fig, ax
+
+def compare_histograms(datasets, labels, title, filename=None, bins=20, kde=False, colors=None, alphas=None):
+    """Plot multiple histograms on the same figure for comparison.
+    
+    Args:
+        datasets: List of data arrays to plot
+        labels: List of labels for each dataset
+        title: Plot title
+        filename: Optional filename to save the plot
+        bins: Number of bins for histograms
+        kde: Whether to show KDE curves
+    """
+    plt.figure(figsize=(10, 6))
+    
+    # Use default colors if none provided
+    if colors is None:
+        colors = [COLORS['primary'], COLORS['secondary'], COLORS['tertiary'], COLORS['highlight']]
+    
+    # Use default alphas if none provided  
+    if alphas is None:
+        alphas = [0.7] * len(datasets)
+    
+    # Plot each histogram
+    for i, data in enumerate(datasets):
+        if i < len(colors) and i < len(labels):
+            sns.histplot(data, bins=bins, kde=kde,
+                        color=colors[i], label=labels[i])
+    
+    plt.title(title)
+    plt.xlabel('Time (s)')
+    plt.ylabel('Frequency (count)')
+    plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+    plt.legend()
+    
+    if filename:
+        save_publication_figure(filename)
+    
+    plt.tight_layout()
+    return plt.gca()
+
 # Load the data from a file
 def load_data(file_path):
     data = pd.read_csv(file_path)
     return data['multicast_benchmark_time_samples']
+
+# Define consistent bin widths for packet loss data
+def generate_bin_edges(min_val, max_val, target_bins=30):
+    """Generate clean bin edges with round numbers."""
+    # Round to nearest 0.5s for discovery time
+    min_val = np.floor(min_val * 2) / 2
+    max_val = np.ceil(max_val * 2) / 2
+    return np.linspace(min_val, max_val, target_bins + 1)
+
+def save_publication_figure(filename, title=None, dpi=600):
+    """Save the current figure with publication-quality settings.
+    
+    Args:
+        filename: Name of output file (without extension)
+        title: Optional title to display on graph
+        dpi: Resolution for raster elements (default: 600)
+    """
+    # Create figures directory if it doesn't exist
+    output_dir = 'figures'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+    
+    # Set title if provided
+    if title:
+        plt.title(title)
+    
+    # Save figure with publication settings
+    filepath = os.path.join(output_dir, f"{filename}.pdf")
+    plt.savefig(filepath, 
+                format='pdf', 
+                dpi=dpi, 
+                bbox_inches='tight')  # Trim whitespace
+    print(f"Figure saved to {filepath}")
 
 # Plot the distribution and calculate statistics
 def analyze_distribution(data, number):
@@ -76,30 +248,330 @@ def analyze_distribution_default(data):
 # Main function
 def main():
 
-    file_paths = ['../multicast-measures/results/netmanager_benchmark_results_overall.txt',
-                '../multicast-measures/results/netmanager_benchmark_results_overall_baremetal.txt',
-                '../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_5.txt',
-                '../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_10.txt',
-                '../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_25.txt',
-                  ]
-    for file_path in file_paths:
-        data = load_data(file_path)
-        if file_path == ('../multicast-measures/results/netmanager_benchmark_results_overall.txt' or '../multicast-measures/results/netmanager_benchmark_results_overall_baremetal.txt'):
-            analyze_distribution_default(data)
-        else:
-            number = file_path.split('_')[-1].split('.')[0]
-            analyze_distribution(data, number)
+        # Initialize consistent styling
+    global COLORS
+    COLORS = setup_publication_style()
+
+    # file_paths = ['../multicast-measures/results/netmanager_benchmark_results_overall.txt',
+    #             '../multicast-measures/results/netmanager_benchmark_results_overall_baremetal.txt',
+    #             '../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_5.txt',
+    #             '../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_10.txt',
+    #             '../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_25.txt',
+    #               ]
+    # for file_path in file_paths:
+    #     data = load_data(file_path)
+    #     if file_path in ['../multicast-measures/results/netmanager_benchmark_results_overall.txt', 
+    #             '../multicast-measures/results/netmanager_benchmark_results_overall_baremetal.txt']:
+    #         analyze_distribution_default(data)
+    #     else:
+    #         number = file_path.split('_')[-1].split('.')[0]
+    #         analyze_distribution(data, number)
 
     # change style to matlab one
     nm_default = load_data('../multicast-measures/results/netmanager_benchmark_results_overall.txt')
-    nm_deafult_baremetal = load_data('../multicast-measures/results/netmanager_benchmark_results_overall_baremetal.txt')
-    nm_netem_5 = load_data('../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_5.txt')
-    nm_netem_10 = load_data('../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_10.txt')
-    nm_netem_25 = load_data('../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_25.txt')
+    nm_netem_5 = load_data('../multicast-measures/results/netmanager_benchmark_results_netem_5.txt')
+    nm_netem_10 = load_data('../multicast-measures/results/netmanager_benchmark_results_netem_10.txt')
+    nm_netem_25 = load_data('../multicast-measures/results/netmanager_benchmark_results_netem_25.txt')
+    nm_default_baremetal = load_data('../multicast-measures/results/netmanager_benchmark_results_overall_baremetal.txt')
+    nm_netem_5_baremetal = load_data('../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_5.txt')
+    nm_netem_10_baremetal = load_data('../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_10.txt')
+    nm_netem_25_baremetal = load_data('../multicast-measures/results/netmanager_benchmark_results_netem_baremetal_25.txt')
     np_default = load_data('../multicast-measures/results/neuropil-default.txt')
     # np_netem_5 = load_data('../multicast-measures/results/neuropil-netem-5.txt')
     np_netem_10 = load_data('../multicast-measures/results/neuropil-netem-10.txt')
     np_netem_10_both = load_data('../multicast-measures/results/neuropil-netem-both-10.txt')
+
+
+    # Find overall min/max across all packet loss datasets
+    all_pl_data = np.concatenate([
+        nm_netem_5_baremetal[1:], 
+        nm_netem_10_baremetal[1:],
+        nm_netem_25_baremetal[1:],
+        nm_netem_5[1:],
+        nm_netem_10[1:],
+        nm_netem_25[1:]
+    ])
+    min_val = np.min(all_pl_data)
+    max_val = np.max(all_pl_data)
+    consistent_bins = generate_bin_edges(min_val, max_val, 40)
+    pl_bins = consistent_bins
+# ------------------------------------NETWORK MANAGER------------------------------------
+
+    # Default VM environment
+    print("\nNetwork Manager - Default VM Environment:")
+    create_histogram(nm_default[1:], 
+                    'Node Discovery Time Distribution \n Multicast-based protocol in VM',
+                    bins=20)
+        # Save if filename provided
+    save_publication_figure('nm_default_vm')
+    
+    # Baremetal environment
+    print("\nNetwork Manager - Baremetal Environment:")
+    mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_default_baremetal[1:], 
+                    'Node Discovery Time Distribution \n Multicast-based protocol in Baremetal environment',
+                    bins=20)
+    # Save if filename provided
+    save_publication_figure('nm_default_baremetal')
+    plt.show()
+    
+    
+    # With 5% packet loss
+    print("\nNetwork Manager - 5% Packet Loss:")
+    mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_5_baremetal[1:], 
+                    'Node Discovery Time Distribution \n Multicast-based Protocol With 5% Packet Loss - Baremetal',
+                    bins=pl_bins,
+                    freq_count=True,
+                    filter=False)
+    save_publication_figure('nm_5_pl_baremetal')
+    
+    # Further modify the figure using the returned fig and ax objects
+    ax.set_xticks(range(0,19,1), minor=True)
+    # ax.set_xlim(0, 18)  # Set x-axis limits for better visualization
+    ax.grid(True, which='both', linestyle='--', alpha=0.7)
+    # Update the figure
+    plt.draw()
+    # Save the modified figure with a different name
+    save_publication_figure('nm_5_pl_baremetal_extended_axis')
+    plt.show()
+    
+    # With 10% packet loss
+    print("\nNetwork Manager - 10% Packet Loss:")
+    mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_10_baremetal[1:], 
+                    'Node Discovery Time Distribution \n Multicast-based Protocol With 10% Packet Loss - Baremetal',
+                    bins=pl_bins,
+                    freq_count=True,
+                    filter=False)
+    save_publication_figure('nm_10_pl_baremetal')
+    
+    ax.set_xticks(range(0,19,1), minor=True)
+    ax.grid(True, which='both', linestyle='--', alpha=0.7)
+    plt.draw()
+    save_publication_figure('nm_10_pl_baremetal_extended_axis')
+    plt.show()
+    
+    # With 25% packet loss
+    print("\nNetwork Manager - 25% Packet Loss:")
+    mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_25_baremetal[1:], 
+                    'Node Discovery Time Distribution \n Multicast-based Protocol With 25% Packet Loss - Baremetal',
+                    bins=pl_bins,
+                    freq_count=True,
+                    filter=False)
+    save_publication_figure('nm_25_pl_baremetal')
+    
+    # Further modify the figure using the returned fig and ax objects
+    ax.set_xticks(range(0,19,1), minor=True)
+    ax.grid(True, which='both', linestyle='--', alpha=0.7)
+    plt.draw()
+    save_publication_figure('nm_25_pl_baremetal_extended_axis')
+    plt.show()
+
+    # With 5% packet loss
+    print("\nNetwork Manager - 5% Packet Loss:")
+    mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_5[1:], 
+                    'Node Discovery Time Distribution \n Multicast-based Protocol With 5% Packet Loss - VM',
+                    bins=pl_bins,
+                    freq_count=True,
+                    filter=False)
+    save_publication_figure('nm_5_pl')
+    
+    ax.set_xticks(range(0,19,1), minor=True)
+    ax.grid(True, which='both', linestyle='--', alpha=0.7)
+    plt.draw()
+    save_publication_figure('nm_5_pl_extended_axis')
+    plt.show()
+    
+    # With 10% packet loss
+    print("\nNetwork Manager - 10% Packet Loss:")
+    mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_10[1:], 
+                    'Node Discovery Time Distribution \n Multicast-based Protocol With 10% Packet Loss - VM',
+                    bins=pl_bins,
+                    freq_count=True,
+                    filter=False)
+    save_publication_figure('nm_10_pl')
+    
+    ax.set_xticks(range(0,19,1), minor=True)
+    ax.grid(True, which='both', linestyle='--', alpha=0.7)
+    plt.draw()
+    save_publication_figure('nm_10_pl_extended_axis')
+    plt.show()
+    
+    # With 25% packet loss
+    print("\nNetwork Manager - 25% Packet Loss:")
+    mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_25[1:], 
+                    'Node Discovery Time Distribution \n Multicast-based Protocol With 25% Packet Loss - VM',
+                    bins=pl_bins,
+                    freq_count=True,
+                    filter=False)
+    save_publication_figure('nm_25_pl')
+    
+    ax.set_xticks(range(0,19,1), minor=True)
+    ax.grid(True, which='both', linestyle='--', alpha=0.7)
+    plt.draw()
+    save_publication_figure('nm_25_pl_extended_axis')
+    plt.show()
+
+    compare_histograms(
+    [nm_default_baremetal[1:], nm_netem_5_baremetal[1:], 
+     nm_netem_10_baremetal[1:], nm_netem_25_baremetal[1:]],
+    ["0% Packet Loss", "5% Packet Loss", "10% Packet Loss", "25% Packet Loss"],
+    "Impact of Packet Loss on Discovery Time - Baremetal",
+    "packet_loss_comparison_baremetal",
+    bins=30
+    )
+    plt.show()
+# ------------------------------------Network Manager DEFAULT VM------------------------------------
+#     plt.figure(figsize=(10, 6))
+#     data = np.round(nm_default, 3)
+#     # Basic statistics
+#     mean = np.mean(data)
+#     std_dev = np.std(data)
+#     percentile_5, percentile_95 = np.percentile(data, [5, 95])  # Calculate 5th and 95th percentiles
+
+#     print(f"Mean: {mean}")
+#     print(f"Standard Deviation: {std_dev}")
+#     print(f"5th Percentile: {percentile_5}, 95th Percentile: {percentile_95}")
+#     filtered_data = data
+#     # Filter data within 95th percentile
+#     filtered_data = data[(data >= percentile_5)]
+#     filtered_data = filtered_data[(data <= percentile_95)] 
+#     print(f"Filtered Data: {len(filtered_data)} samples within 5th to 95th percentile")
+
+#     # Plot the distribution (of FILTERED DATA)
+#     #counts, bins, patches = plt.hist(filtered_data, bins='auto', color='skyblue', edgecolor='black', rwidth=0.9)
+#     sns.histplot(filtered_data, kde=False, bins=20)
+#     # plt.axvline(percentiles[0], color='red', linestyle='--', label='5th Percentile')
+#     # plt.axvline(percentiles[1], color='green', linestyle='--', label='95th Percentile')
+#     # plt.legend()
+#     # plt.xticks(ticks=range(3,19,2), minor=True)
+#     plt.title(f'Node Discovery Time Distribution - Multicast-based protocol in VM \n')
+#     plt.xlabel('Time (s)')
+#     plt.ylabel('Frequency (count)')
+#     plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+#     plt.show()
+
+# # ------------------------------------Network Manager DEFAULT BAREMETAL------------------------------------
+
+#     plt.figure(figsize=(10, 6))
+#     data = np.round(nm_default_baremetal, 3)
+#     # Basic statistics
+#     mean = np.mean(data)
+#     std_dev = np.std(data)
+#     percentile_5, percentile_95 = np.percentile(data, [5, 95])  # Calculate 5th and 95th percentiles
+
+#     print(f"Mean: {mean}")
+#     print(f"Standard Deviation: {std_dev}")
+#     print(f"5th Percentile: {percentile_5}, 95th Percentile: {percentile_95}")
+#     filtered_data = data
+#     # Filter data within 95th percentile
+#     filtered_data = data[(data >= percentile_5)]
+#     filtered_data = filtered_data[(data <= percentile_95)] 
+#     print(f"Filtered Data: {len(filtered_data)} samples within 5th to 95th percentile")
+
+#     # Plot the distribution (of FILTERED DATA)
+#     #counts, bins, patches = plt.hist(filtered_data, bins='auto', color='skyblue', edgecolor='black', rwidth=0.9)
+#     sns.histplot(filtered_data, kde=False, bins=20)
+#     # plt.axvline(percentiles[0], color='red', linestyle='--', label='5th Percentile')
+#     # plt.axvline(percentiles[1], color='green', linestyle='--', label='95th Percentile')
+#     # plt.legend()
+#     # plt.xticks(ticks=range(3,19,2), minor=True)
+#     plt.title(f'Node Discovery Time Distribution - Multicast-based protocol in Baremetal environment \n')
+#     plt.xlabel('Time (s)')
+#     plt.ylabel('Frequency (count)')
+#     plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+#     plt.show()
+
+# # ------------------------------------NetworkManager with Packet Loss------------------------------------
+
+#     # 5% packet loss
+#     plt.figure(figsize=(10, 6))
+#     data = np.round(nm_netem_5, 3)
+#     # Basic statistics
+#     mean = np.mean(data)
+#     std_dev = np.std(data)
+#     percentile_5, percentile_95 = np.percentile(data, [5, 95])  # Calculate 5th and 95th percentiles
+
+#     print(f"Mean: {mean}")
+#     print(f"Standard Deviation: {std_dev}")
+#     print(f"5th Percentile: {percentile_5}, 95th Percentile: {percentile_95}")
+#     filtered_data = data
+#     counts, bins, patches = plt.hist(filtered_data, bins=100, color='skyblue', edgecolor='black', rwidth=0.9)
+#     # sns.histplot(filtered_data, kde=False, bins=20)
+#     # plt.axvline(percentiles[0], color='red', linestyle='--', label='5th Percentile')
+#     # plt.axvline(percentiles[1], color='green', linestyle='--', label='95th Percentile')
+#     # plt.legend()
+#     plt.xticks(ticks=range(3,19,2), minor=True)
+#     plt.title(f'Node Discovery Time Distribution - Multicast-based Protocol With 5% Packet Loss \n')
+#     plt.xlabel('Time (s)')
+#     plt.ylabel('Frequency (count)')
+#     plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+
+#     # Annotate frequencies on the bars
+#     for count, patch in zip(counts, patches):
+#         if count != 0:
+#             x = patch.get_x() + patch.get_width() / 2  # Center of the bar
+#             plt.text(x, count, f"{int(count)}", ha='center', va='bottom')       
+#     plt.show()
+
+#         # 10% packet loss
+#     plt.figure(figsize=(10, 6))
+#     data = np.round(nm_netem_10, 3)
+#     # Basic statistics
+#     mean = np.mean(data)
+#     std_dev = np.std(data)
+#     percentile_5, percentile_95 = np.percentile(data, [5, 95])  # Calculate 5th and 95th percentiles
+
+#     print(f"Mean: {mean}")
+#     print(f"Standard Deviation: {std_dev}")
+#     print(f"5th Percentile: {percentile_5}, 95th Percentile: {percentile_95}")
+#     filtered_data = data
+#     counts, bins, patches = plt.hist(filtered_data, bins=20, color='skyblue', edgecolor='black', rwidth=0.9)
+#     # sns.histplot(filtered_data, kde=False, bins=20)
+#     # plt.axvline(percentiles[0], color='red', linestyle='--', label='5th Percentile')
+#     # plt.axvline(percentiles[1], color='green', linestyle='--', label='95th Percentile')
+#     # plt.legend()
+#     plt.xticks(ticks=range(3,19,2), minor=True)
+#     plt.title(f'Node Discovery Time Distribution - Multicast-based Protocol With 10% Packet Loss \n')
+#     plt.xlabel('Time (s)')
+#     plt.ylabel('Frequency (count)')
+#     plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+
+#     # Annotate frequencies on the bars
+#     for count, patch in zip(counts, patches):
+#         if count != 0:
+#             x = patch.get_x() + patch.get_width() / 2  # Center of the bar
+#             plt.text(x, count, f"{int(count)}", ha='center', va='bottom')       
+#     plt.show()
+
+#         # 25% packet loss
+#     plt.figure(figsize=(10, 6))
+#     data = np.round(nm_netem_25, 3)
+#     # Basic statistics
+#     mean = np.mean(data)
+#     std_dev = np.std(data)
+#     percentile_5, percentile_95 = np.percentile(data, [5, 95])  # Calculate 5th and 95th percentiles
+
+#     print(f"Mean: {mean}")
+#     print(f"Standard Deviation: {std_dev}")
+#     print(f"5th Percentile: {percentile_5}, 95th Percentile: {percentile_95}")
+#     filtered_data = data
+#     # counts, bins, patches = plt.hist(filtered_data, bins=30, color='skyblue', edgecolor='black', rwidth=0.9)
+#     sns.histplot(filtered_data, kde=False, bins=20)
+#     # plt.axvline(percentiles[0], color='red', linestyle='--', label='5th Percentile')
+#     # plt.axvline(percentiles[1], color='green', linestyle='--', label='95th Percentile')
+#     # plt.legend()
+#     plt.xticks(ticks=range(0,19,2), minor=True)
+#     plt.title(f'Node Discovery Time Distribution - Multicast-based Protocol With 25% Packet Loss \n')
+#     plt.xlabel('Time (s)')
+#     plt.ylabel('Frequency (count)')
+#     plt.grid(visible=True, which='both', linestyle='--', linewidth=0.5, alpha=0.7)
+
+#     # Annotate frequencies on the bars
+#     for count, patch in zip(counts, patches):
+#         if count != 0:
+#             x = patch.get_x() + patch.get_width() / 2  # Center of the bar
+#             plt.text(x, count, f"{int(count)}", ha='center', va='bottom')       
+#     plt.show()
+
     
     # CANDLE GRAPH
     # Path to the text file
@@ -149,18 +621,19 @@ def main():
 
     # ---Neuropil DEFAULT
     # Basic statistics
+    plt.figure(figsize=(10, 6))
     np_mean = np.mean(np_default)
-    nm_default_baremetal = np.mean(nm_deafult_baremetal)
+    nm_default_baremetal = np.mean(nm_default_baremetal)
 
     np_std_dev = np.std(np_default)
-    nm_default_baremetal_std_dev = np.std(nm_deafult_baremetal)
+    nm_default_baremetal_std_dev = np.std(nm_default_baremetal)
 
     np_percentile_5, np_percentile_95 = np.percentile(np_default, [5, 95])  # Calculate 5th and 95th percentiles
-    nm_default_baremetal_percentile_5, nm_default_baremetal_percentile_95 = np.percentile(nm_deafult_baremetal, [5, 95])
+    nm_default_baremetal_percentile_5, nm_default_baremetal_percentile_95 = np.percentile(nm_default_baremetal, [5, 95])
     
     # Round values
     np_default = np.round(np_default, 3)
-    nm_deafult_baremetal = np.round(nm_deafult_baremetal, 3)
+    nm_default_baremetal = np.round(nm_default_baremetal, 3)
     
     print(f"Mean: {np_mean}")
     print(f"Standard Deviation: {np_std_dev}")
@@ -172,15 +645,15 @@ def main():
 
     # Clean data
     np_default_filtered = np_default
-    nm_default_baremetal_filtered = nm_deafult_baremetal
+    nm_default_baremetal_filtered = nm_default_baremetal
 
     # Filter data within 95th percentile
     np_default_filtered = np_default[(np_default >= np_percentile_5)]
     np_default_filtered = np_default_filtered[(np_default <= np_percentile_95)] 
     print(f"Filtered Data: {len(np_default_filtered)} samples within 5th to 95th percentile")
 
-    nm_default_baremetal_filtered = nm_deafult_baremetal[(nm_deafult_baremetal >= nm_default_baremetal_percentile_5)]
-    nm_default_baremetal_filtered = nm_default_baremetal_filtered[(nm_deafult_baremetal <= nm_default_baremetal_percentile_95)]
+    nm_default_baremetal_filtered = nm_default_baremetal[(nm_default_baremetal >= nm_default_baremetal_percentile_5)]
+    nm_default_baremetal_filtered = nm_default_baremetal_filtered[(nm_default_baremetal <= nm_default_baremetal_percentile_95)]
     print(f"Filtered Data: {len(nm_default_baremetal_filtered)} samples within 5th to 95th percentile")
     
     # Plot the distribution (of FILTERED DATA)
@@ -188,7 +661,6 @@ def main():
     sns.histplot(np_default_filtered, kde=False, bins=50)
     sns.histplot(nm_default_baremetal_filtered, kde=False, bins=1, color='red')
 
-    plt.legend()
     plt.legend(['Neuropil Default', 'NM Baremetal'])
     # plt.xticks(ticks=range(3,19,2), minor=True)
     plt.title(f'Distribution of Time Samples in Total time benchmark with 0% packet loss - Neuropil')
@@ -205,6 +677,7 @@ def main():
 
 
     # NP BOTH 10%
+    plt.figure(figsize=(10, 6))
     np_mean = np.mean(np_netem_10_both)
     np_std_dev = np.std(np_netem_10_both)
 
@@ -218,7 +691,7 @@ def main():
     print(f"5th Percentile: {np_percentile_5}, 95th Percentile: {np_percentile_95}")
     # Clean data
     np_netem_10_both_filtered = np_netem_10_both
-    nm_default_baremetal_filtered = nm_deafult_baremetal
+    nm_default_baremetal_filtered = nm_default_baremetal
 
     # Filter data within 95th percentile
     np_netem_10_both_filtered = np_netem_10_both[(np_netem_10_both >= np_percentile_5)]
