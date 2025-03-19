@@ -337,7 +337,7 @@ def main():
     # Default VM environment
     print("\nNetwork Manager - Default VM Environment:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_default[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based protocol in VM',
+                    'Multicast-based Protocol - Ideal network - VM',
                     bins=default_nm_vm_bins)
         # Save if filename provided
     ax.yaxis.set_major_locator(ticker.MultipleLocator(2))
@@ -349,7 +349,7 @@ def main():
     # Baremetal environment
     print("\nNetwork Manager - Baremetal Environment:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_default_baremetal[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based protocol in Baremetal environment',
+                    'Multicast-based Protocol - Ideal network - Baremetal',
                     bins=default_nm_baremetal_bins)
     # Save if filename provided
     save_publication_figure('nm_default_baremetal')
@@ -361,7 +361,7 @@ def main():
     # With 5% packet loss
     print("\nNetwork Manager - 5% Packet Loss:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_5_baremetal[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 5% Packet Loss - Baremetal',
+                    'Multicast-based Protocol - 5% Packet Loss - Baremetal',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
@@ -372,14 +372,14 @@ def main():
     save_publication_figure('nm_5_pl_baremetal')
     # extended
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_5_baremetal[1:], 
-                'Node Discovery Time Distribution \n Multicast-based Protocol With 5% Packet Loss - Baremetal',
+                'Multicast-based Protocol - 5% Packet Loss - Baremetal',
                 bins=nm_netem_bins,
                 freq_count=False,
                 filter=False)
     # Now expand the axis for the second figure
-    #ax.set_xlim(0, 18)  # Set extended x-axis limits
-    ax.set_xticks(range(1, 20, 1), minor=False)
-    ax.set_xticks(np.arange(1.5, 18.5, 1.0), minor=True)
+    ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
+    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.5,1))
+    ax.set_xlim(0,19)
     ax.grid(True, which='both', linestyle='--', alpha=0.7)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     # Update the figure with extended limits
@@ -391,7 +391,7 @@ def main():
     # With 10% packet loss
     print("\nNetwork Manager - 10% Packet Loss:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_10_baremetal[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 10% Packet Loss - Baremetal',
+                    'Multicast-based Protocol - 10% Packet Loss - Baremetal',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
@@ -401,14 +401,14 @@ def main():
     save_publication_figure('nm_10_pl_baremetal')
     
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_10_baremetal[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 10% Packet Loss - Baremetal',
+                    'Multicast-based Protocol - 10% Packet Loss - Baremetal',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
         # Now expand the axis for the second figure
     #ax.set_xlim(0, 18)  # Set extended x-axis limits
-    ax.set_xticks(range(1, 20, 1), minor=False)
-    ax.set_xticks(np.arange(1.5, 18.5, 1.0), minor=True)
+    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.5,1))
+    ax.set_xlim(0,19)
     ax.grid(True, which='both', linestyle='--', alpha=0.7)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     # Update the figure with extended limits
@@ -420,7 +420,7 @@ def main():
     # With 25% packet loss
     print("\nNetwork Manager - 25% Packet Loss:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_25_baremetal[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 25% Packet Loss - Baremetal',
+                    'Multicast-based Protocol - 25% Packet Loss - Baremetal',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
@@ -430,13 +430,13 @@ def main():
     save_publication_figure('nm_25_pl_baremetal')
     
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_25_baremetal[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 25% Packet Loss - Baremetal',
+                    'Multicast-based Protocol - 25% Packet Loss - Baremetal',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
     #ax.set_xlim(0, 18)  # Set extended x-axis limits
-    ax.set_xticks(range(1, 20, 1), minor=False)
-    ax.set_xticks(np.arange(1.5, 18.5, 1.0), minor=True)
+    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.5,1))
+    ax.set_xlim(0,19)
     ax.grid(True, which='both', linestyle='--', alpha=0.7)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     # Update the figure with extended limits
@@ -449,7 +449,7 @@ def main():
     # With 5% packet loss
     print("\nNetwork Manager - 5% Packet Loss:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_5[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 5% Packet Loss - VM',
+                    'Multicast-based Protocol - 5% Packet Loss - VM',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
@@ -459,13 +459,13 @@ def main():
     save_publication_figure('nm_5_pl')
     
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_5[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 5% Packet Loss - VM',
+                    'Multicast-based Protocol - 5% Packet Loss - VM',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
     #ax.set_xlim(0, 18)  # Set extended x-axis limits
-    ax.set_xticks(range(1, 20, 1), minor=False)
-    ax.set_xticks(np.arange(1.5, 18.5, 1.0), minor=True)
+    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.5,1))
+    ax.set_xlim(0,19)
     ax.grid(True, which='both', linestyle='--', alpha=0.7)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     # Update the figure with extended limits
@@ -477,7 +477,7 @@ def main():
     # With 10% packet loss
     print("\nNetwork Manager - 10% Packet Loss:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_10[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 10% Packet Loss - VM',
+                    'Multicast-based Protocol - 10% Packet Loss - VM',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
@@ -487,13 +487,13 @@ def main():
     save_publication_figure('nm_10_pl')
     
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_10[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 10% Packet Loss - VM',
+                    'Multicast-based Protocol - 10% Packet Loss - VM',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
     #ax.set_xlim(0, 18)  # Set extended x-axis limits
-    ax.set_xticks(range(1, 20, 1), minor=False)
-    ax.set_xticks(np.arange(1.5, 18.5, 1.0), minor=True)
+    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.5,1))
+    ax.set_xlim(0,19)
     ax.grid(True, which='both', linestyle='--', alpha=0.7)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     # Update the figure with extended limits
@@ -505,7 +505,7 @@ def main():
     # With 25% packet loss
     print("\nNetwork Manager - 25% Packet Loss:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_25[1:], 
-                    'Node Discovery Time Distribution \n Multicast-based Protocol With 25% Packet Loss - VM',
+                    'Multicast-based Protocol - 25% Packet Loss - VM',
                     bins=nm_netem_bins,
                     freq_count=False,
                     filter=False)
@@ -515,13 +515,13 @@ def main():
     save_publication_figure('nm_25_pl')
     
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(nm_netem_25[1:], 
-                'Node Discovery Time Distribution \n Multicast-based Protocol With 25% Packet Loss - VM',
+                'Multicast-based Protocol - 25% Packet Loss - VM',
                 bins=nm_netem_bins,
                 freq_count=False,
                 filter=False)
     #ax.set_xlim(0, 18)  # Set extended x-axis limits
-    ax.set_xticks(range(1, 20, 1), minor=False)
-    ax.set_xticks(np.arange(1.5, 18.5, 1.0), minor=True)
+    ax.xaxis.set_minor_locator(ticker.MultipleLocator(0.5,1))
+    ax.set_xlim(0,19)
     ax.grid(True, which='both', linestyle='--', alpha=0.7)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     # Update the figure with extended limits
@@ -547,12 +547,13 @@ def main():
 
     print("\nNeuropil - Default VM Environment:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(np_default, 
-                    'Node Discovery Time Distribution \n DHT-based Protocol - VM',
+                    'DHT-based Protocol - VM',
                     bins=np_default_bins,
                     freq_count=False,
                     filter=False)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
     ax.xaxis.set_minor_locator(ticker.MultipleLocator(1))
+    ax.set_xlim(30, 65)
     save_publication_figure('np_default_vm')
 
     np_netem_10_bins = np.arange(30,100,1)
@@ -560,12 +561,13 @@ def main():
     # With 10% packet loss
     print("\nNeuropil - 10% Packet Loss:")
     mean, std_dev, percentile_5, percentile_95, fig, ax = create_histogram(np_netem_10_both,
-                    'Node Discovery Time Distribution \n DHT-based Protocol With 10% Packet Loss - VM',
+                    'DHT-based Protocol - 10% Packet Loss - VM',
                     bins=np_netem_10_bins,
                     freq_count=False,
                     filter=False)
-    ax.xaxis.set_major_locator(ticker.MultipleLocator(10))
+    ax.xaxis.set_major_locator(ticker.MultipleLocator(5))
     ax.xaxis.set_minor_locator(ticker.MultipleLocator(1))
+    ax.set_xlim(30, 100)
     save_publication_figure('np_10_pl')
 
 #------------------------------------BOX PLOT------------------------------------
