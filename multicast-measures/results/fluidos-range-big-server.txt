@@ -1,4 +1,3 @@
-multicast_benchmark_time_samples
 multicast_benchmark_time_samples 0.0
 7.61463
 4.838079
